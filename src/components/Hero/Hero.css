@@ -1,0 +1,208 @@
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(135deg, 
+      rgba(78, 92, 68, 0.92) 0%, 
+      rgba(61, 77, 53, 0.88) 40%, 
+      rgba(90, 107, 80, 0.85) 70%,
+      rgba(107, 122, 94, 0.9) 100%),
+    url('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1920&h=1080&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(216, 196, 188, 0.22) 0%, transparent 65%),
+              radial-gradient(ellipse at 10% 80%, rgba(107, 122, 94, 0.3) 0%, transparent 50%);
+}
+
+.hero-deco {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.hero-deco-1 {
+  width: 600px;
+  height: 600px;
+  top: -150px;
+  right: -100px;
+}
+
+.hero-deco-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  right: 100px;
+  border-color: rgba(255,255,255,0.04);
+}
+
+.hero-deco-3 {
+  width: 200px;
+  height: 200px;
+  top: 30%;
+  right: 12%;
+  border-color: rgba(216, 196, 188, 0.15);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  padding-top: 80px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--rosa);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--rosa);
+}
+
+.hero h1 {
+  font-size: 68px;
+  line-height: 1.05;
+  color: white;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.4s forwards;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--rosa);
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 40px;
+  max-width: 480px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.6s forwards;
+}
+
+.hero-price-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.7s forwards;
+}
+
+.hero-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  font-weight: 300;
+  color: white;
+  line-height: 1;
+}
+
+.hero-price .price-number {
+  display: inline-block;
+}
+
+.hero-price .currency {
+  font-size: 28px;
+  vertical-align: middle;
+}
+
+.hero-price small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  display: block;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+
+.hero-divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(255,255,255,0.2);
+}
+
+.hero-badge {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.5;
+}
+
+.hero-badge strong {
+  display: block;
+  color: var(--rosa);
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.85s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+  
+  .hero-price {
+    font-size: 42px;
+  }
+  
+  .hero-price-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .hero-divider {
+    display: none;
+  }
+}

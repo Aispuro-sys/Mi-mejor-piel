@@ -1,0 +1,115 @@
+.section-como-usar {
+  background: var(--verde-oscuro);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-como-usar::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+  top: -300px;
+  right: -200px;
+}
+
+.section-como-usar .section-label {
+  color: var(--rosa);
+}
+
+.section-como-usar .section-label::before {
+  background: var(--rosa);
+}
+
+.section-como-usar h2 {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.step-item {
+  padding: 48px 36px;
+  background: rgba(255,255,255,0.03);
+  transition: background var(--transition-normal);
+}
+
+.step-item:hover {
+  background: rgba(255,255,255,0.07);
+}
+
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.08);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.step-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(216,196,188,0.15);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--rosa);
+}
+
+.step-item h3 {
+  font-size: 22px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.step-item p {
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.75;
+}
+
+.sensibilidad-nota {
+  margin-top: 40px;
+  padding: 24px 32px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sensibilidad-nota .icon {
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sensibilidad-nota p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+
+.sensibilidad-nota strong {
+  color: white;
+}
+
+@media (max-width: 1024px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}

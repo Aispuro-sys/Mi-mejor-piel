@@ -1,0 +1,47 @@
+/* ══════════════════════════════════════════════════════════════
+   MI MEJOR PIEL - Variables CSS
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Colores principales */
+  --beige: #F7F0EB;
+  --beige-deep: #EDE0D7;
+  --rosa: #D9C4BC;
+  --rosa-claro: #F0E5DF;
+  --mauve: #9C8B7A;
+  --purple: #4A4540;
+  --verde: #6B7A5E;
+  --verde-claro: #8A9A7B;
+  --verde-oscuro: #4E5C44;
+  --dark: #2C2925;
+  --gold: #B8A48A;
+  --white: #FDFAF8;
+
+  /* WhatsApp */
+  --whatsapp: #25D366;
+  --whatsapp-hover: #1eb858;
+
+  /* Transiciones */
+  --transition-fast: 0.25s ease;
+  --transition-normal: 0.3s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Sombras */
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.04);
+  --shadow-md: 0 12px 30px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --shadow-verde: 0 12px 30px rgba(78, 92, 68, 0.3);
+  --shadow-whatsapp: 0 8px 28px rgba(37, 211, 102, 0.4);
+
+  /* Bordes */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 40px;
+
+  /* Espaciado */
+  --section-padding: 110px;
+  --container-width: 1200px;
+}
