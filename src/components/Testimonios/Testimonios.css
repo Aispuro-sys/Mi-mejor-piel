@@ -140,15 +140,43 @@
 }
 
 @media (max-width: 768px) {
+  .section-title.center {
+    margin-bottom: 40px;
+  }
+  
   .testimonios-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .testimonio-card {
+    padding: 28px 24px;
   }
   
   .oferta-section {
-    padding: 40px 28px;
+    padding: 40px 24px;
+    margin-top: 40px;
   }
   
   .oferta-section h3 {
-    font-size: 28px;
+    font-size: 26px;
+  }
+  
+  .oferta-section p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonio-card {
+    padding: 24px 20px;
+  }
+  
+  .testimonio-text {
+    font-size: 14px;
+  }
+  
+  .oferta-section h3 {
+    font-size: 22px;
   }
 }

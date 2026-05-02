@@ -113,3 +113,45 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .step-item {
+    padding: 32px 24px;
+  }
+  
+  .step-num {
+    font-size: 60px;
+  }
+  
+  .step-item h3 {
+    font-size: 20px;
+  }
+  
+  .sensibilidad-nota {
+    flex-direction: column;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-item {
+    padding: 24px 20px;
+  }
+  
+  .step-num {
+    font-size: 50px;
+  }
+  
+  .step-icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .step-item h3 {
+    font-size: 18px;
+  }
+  
+  .step-item p {
+    font-size: 13px;
+  }
+}

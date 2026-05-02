@@ -91,3 +91,59 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE - Media Queries Globales
+   ══════════════════════════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 992px) {
+  :root {
+    --section-padding: 80px;
+  }
+  
+  .container {
+    width: 92%;
+    padding: 0 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 60px;
+  }
+  
+  .container {
+    width: 94%;
+    padding: 0 12px;
+  }
+  
+  h1 {
+    font-size: 2.2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.8rem !important;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  :root {
+    --section-padding: 50px;
+  }
+  
+  .container {
+    width: 96%;
+    padding: 0 10px;
+  }
+  
+  h1 {
+    font-size: 1.8rem !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+}

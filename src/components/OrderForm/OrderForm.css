@@ -335,25 +335,85 @@ textarea.form-control {
 @media (max-width: 1024px) {
   .order-layout {
     grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .map-side {
+    order: -1;
   }
 }
 
 @media (max-width: 768px) {
+  .order-form-wrapper h3 {
+    font-size: 28px;
+  }
+  
   .qty-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
   
   .delivery-options {
     grid-template-columns: 1fr;
   }
+  
+  .map-side h3 {
+    font-size: 28px;
+  }
+  
+  .map-container iframe {
+    height: 250px;
+  }
+  
+  .location-card {
+    padding: 14px 16px;
+  }
 }
 
 @media (max-width: 480px) {
-  .qty-grid {
-    grid-template-columns: 1fr;
+  .order-form-wrapper {
+    padding: 24px 18px;
   }
   
-  .order-form-wrapper {
-    padding: 28px 22px;
+  .order-form-wrapper h3 {
+    font-size: 24px;
+  }
+  
+  .qty-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .qty-card {
+    padding: 14px 8px;
+  }
+  
+  .qty-num {
+    font-size: 28px;
+  }
+  
+  .qty-label {
+    font-size: 10px;
+  }
+  
+  .qty-price {
+    font-size: 12px;
+  }
+  
+  .delivery-option {
+    padding: 12px;
+  }
+  
+  .form-control {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+  
+  .map-side h3 {
+    font-size: 24px;
+  }
+  
+  .loc-icon {
+    width: 40px;
+    height: 40px;
   }
 }

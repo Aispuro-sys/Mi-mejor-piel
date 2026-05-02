@@ -154,14 +154,21 @@
 @media (max-width: 1024px) {
   .producto-layout {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
   
   .producto-visual {
     position: static;
+    max-width: 400px;
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 768px) {
+  .producto-info h2 {
+    font-size: 32px;
+  }
+  
   .beneficios-list,
   .faq-grid {
     grid-template-columns: 1fr;
@@ -169,5 +176,27 @@
   
   .precio-grande {
     font-size: 48px;
+  }
+  
+  .faq-item {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .producto-img-container {
+    padding: 24px;
+  }
+  
+  .producto-info h2 {
+    font-size: 28px;
+  }
+  
+  .precio-grande {
+    font-size: 40px;
+  }
+  
+  .beneficios-list li {
+    font-size: 13px;
   }
 }

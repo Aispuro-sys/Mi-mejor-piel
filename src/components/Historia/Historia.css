@@ -119,11 +119,57 @@
 @media (max-width: 1024px) {
   .historia-grid {
     grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  
+  .historia-img-wrapper {
+    max-width: 450px;
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 768px) {
+  .historia-grid {
+    gap: 40px;
+  }
+  
   .section-title h2 {
-    font-size: 36px;
+    font-size: 32px;
+  }
+  
+  .historia-img-frame {
+    border-radius: 4px 50px 4px 50px;
+  }
+  
+  .historia-deco-card {
+    bottom: -20px;
+    right: -10px;
+    padding: 20px 24px;
+  }
+  
+  .historia-deco-card .big-num {
+    font-size: 40px;
+  }
+  
+  .historia-quote p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title h2 {
+    font-size: 28px;
+  }
+  
+  .historia-text p {
+    font-size: 14px;
+  }
+  
+  .historia-deco-card {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 20px;
+    display: inline-block;
   }
 }
