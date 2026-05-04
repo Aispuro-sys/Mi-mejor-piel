@@ -16,7 +16,16 @@
   font-size: 28px;
   color: white;
   margin-bottom: 16px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-footer-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .footer-brand .logo-footer em {

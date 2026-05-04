@@ -16,7 +16,10 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand fade-in">
-            <span className="logo-footer">Mi Mejor <em>Piel</em></span>
+            <span className="logo-footer">
+              <img src="/logo.png" alt="Mi Mejor Piel" className="logo-footer-img" />
+              Mi Mejor <em>Piel</em>
+            </span>
             <p>
               Suero de Ácido Hialurónico puro, formulado con amor en Tijuana 
               para darte resultados reales. Descubre tu mejor versión.
