@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Store, Truck, MapPin, MessageCircle, Lock } from 'lucide-react';
+import { Store, Truck, MapPin, MessageCircle, Lock, Plus, Minus } from 'lucide-react';
 import { CONFIG, PRICES } from '../../utils/config';
 import { Button } from '../UI';
 import './OrderForm.css';
 
 export default function OrderForm() {
   const [selectedQty, setSelectedQty] = useState(2);
+  const [customQty, setCustomQty] = useState(4);
+  const [useCustomQty, setUseCustomQty] = useState(false);
   const [selectedDelivery, setSelectedDelivery] = useState('pickup');
   const [formData, setFormData] = useState({
     nombre: '',
@@ -16,7 +18,25 @@ export default function OrderForm() {
   });
   const [errors, setErrors] = useState({});
 
-  const selectedPrice = PRICES[selectedQty] || 300;
+  const actualQty = useCustomQty ? customQty : selectedQty;
+  const selectedPrice = actualQty * CONFIG.pricePerUnit;
+
+  const handleQtySelect = (qty) => {
+    setSelectedQty(qty);
+    setUseCustomQty(false);
+  };
+
+  const handleCustomQtySelect = () => {
+    setUseCustomQty(true);
+  };
+
+  const incrementCustomQty = () => {
+    setCustomQty(prev => prev + 1);
+  };
+
+  const decrementCustomQty = () => {
+    setCustomQty(prev => (prev > 4 ? prev - 1 : 4));
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,7 +74,7 @@ export default function OrderForm() {
     waMsg += `• *Nombre:* ${formData.nombre.trim()}\n`;
     waMsg += `• *Teléfono:* ${formData.telefono.trim()}\n`;
     waMsg += `• *Ciudad:* ${formData.ciudad}\n`;
-    waMsg += `• *Cantidad:* ${selectedQty} frasco${selectedQty > 1 ? 's' : ''}\n`;
+    waMsg += `• *Cantidad:* ${actualQty} frasco${actualQty > 1 ? 's' : ''}\n`;
     waMsg += `• *Entrega:* ${deliveryText}\n`;
     waMsg += `• *Total:* $${selectedPrice} MXN\n`;
     if (formData.mensaje.trim()) {
@@ -85,16 +105,51 @@ export default function OrderForm() {
               {[1, 2, 3].map(qty => (
                 <div 
                   key={qty}
-                  className={`qty-card ${selectedQty === qty ? 'selected' : ''}`}
-                  onClick={() => setSelectedQty(qty)}
+                  className={`qty-card ${!useCustomQty && selectedQty === qty ? 'selected' : ''}`}
+                  onClick={() => handleQtySelect(qty)}
                 >
                   {qty === 2 && <div className="qty-popular">Popular</div>}
                   <span className="qty-num">{qty}</span>
                   <div className="qty-label">frasco{qty > 1 ? 's' : ''}</div>
-                  <div className="qty-price">${PRICES[qty]} MXN</div>
+                  <div className="qty-price">${qty * CONFIG.pricePerUnit} MXN</div>
                 </div>
               ))}
+              <div 
+                className={`qty-card qty-card-custom ${useCustomQty ? 'selected' : ''}`}
+                onClick={handleCustomQtySelect}
+              >
+                <div className="qty-popular">Mayoreo</div>
+                <span className="qty-num">4+</span>
+                <div className="qty-label">frascos</div>
+                <div className="qty-price">$300 c/u</div>
+              </div>
             </div>
+
+            {/* Custom Qty Selector */}
+            {useCustomQty && (
+              <div className="custom-qty-selector">
+                <span className="custom-qty-label">Cantidad exacta:</span>
+                <div className="custom-qty-controls">
+                  <button 
+                    type="button" 
+                    className="qty-btn" 
+                    onClick={decrementCustomQty}
+                    disabled={customQty <= 4}
+                  >
+                    <Minus size={18} />
+                  </button>
+                  <span className="custom-qty-value">{customQty}</span>
+                  <button 
+                    type="button" 
+                    className="qty-btn" 
+                    onClick={incrementCustomQty}
+                  >
+                    <Plus size={18} />
+                  </button>
+                </div>
+                <span className="custom-qty-total">${customQty * CONFIG.pricePerUnit} MXN</span>
+              </div>
+            )}
 
             {/* Delivery Options */}
             <div className="form-label">Tipo de entrega</div>
@@ -198,7 +253,7 @@ export default function OrderForm() {
             {/* Order Summary */}
             <div className="order-summary">
               <div className="order-summary-row">
-                <span>{selectedQty} frasco{selectedQty > 1 ? 's' : ''} × $300</span>
+                <span>{actualQty} frasco{actualQty > 1 ? 's' : ''} × $300</span>
                 <span>${selectedPrice} MXN</span>
               </div>
               <div className="order-summary-row">

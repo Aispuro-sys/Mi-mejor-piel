@@ -30,7 +30,7 @@
 
 .qty-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-bottom: 28px;
 }
@@ -95,6 +95,87 @@
   font-weight: 600;
   color: var(--verde);
   margin-top: 8px;
+}
+
+.qty-card-custom .qty-popular {
+  opacity: 1;
+  background: var(--gold);
+}
+
+/* Custom Qty Selector */
+.custom-qty-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--rosa-claro);
+  border: 2px solid var(--verde);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-qty-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.custom-qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--verde);
+  background: var(--white);
+  color: var(--verde);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: var(--verde);
+  color: white;
+}
+
+.qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.custom-qty-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--verde-oscuro);
+  min-width: 50px;
+  text-align: center;
+}
+
+.custom-qty-total {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--verde);
 }
 
 .delivery-options {
@@ -349,11 +430,17 @@ textarea.form-control {
   }
   
   .qty-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
   }
   
   .delivery-options {
     grid-template-columns: 1fr;
+  }
+  
+  .custom-qty-selector {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
   }
   
   .map-side h3 {
@@ -379,12 +466,12 @@ textarea.form-control {
   }
   
   .qty-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   
   .qty-card {
-    padding: 14px 8px;
+    padding: 16px 10px;
   }
   
   .qty-num {
@@ -397,6 +484,19 @@ textarea.form-control {
   
   .qty-price {
     font-size: 12px;
+  }
+  
+  .custom-qty-selector {
+    padding: 14px 16px;
+  }
+  
+  .custom-qty-label {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .custom-qty-value {
+    font-size: 28px;
   }
   
   .delivery-option {
