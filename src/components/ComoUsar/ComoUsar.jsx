@@ -26,14 +26,14 @@ export default function ComoUsar() {
   return (
     <section className="section section-como-usar" id="como-usar">
       <div className="container">
-        <div className="section-title">
+        <div className="section-title fade-in">
           <div className="section-label">Modo de Uso</div>
           <h2>Así de fácil</h2>
         </div>
         
         <div className="steps-grid">
           {steps.map((step, index) => (
-            <div className="step-item" key={index}>
+            <div className={`step-item fade-in delay-${index + 1}`} key={index}>
               <div className="step-num">{step.num}</div>
               <div className="step-icon">{step.icon}</div>
               <h3>{step.title}</h3>
@@ -42,7 +42,7 @@ export default function ComoUsar() {
           ))}
         </div>
         
-        <div className="sensibilidad-nota">
+        <div className="sensibilidad-nota fade-in">
           <div className="icon">
             <Shield size={22} />
           </div>

@@ -7,10 +7,13 @@ import Testimonios from './components/Testimonios';
 import OrderForm from './components/OrderForm';
 import Footer from './components/Footer';
 import { FloatingElements } from './components/UI';
+import { useScrollAnimation } from './hooks';
 
 import './styles/globals.css';
 
 function App() {
+  useScrollAnimation();
+  
   return (
     <>
       <Header />

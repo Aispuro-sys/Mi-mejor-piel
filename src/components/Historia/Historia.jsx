@@ -7,7 +7,7 @@ export default function Historia() {
     <section className="section section-historia" id="historia">
       <div className="container">
         <div className="historia-grid">
-          <div className="historia-img-wrapper">
+          <div className="historia-img-wrapper fade-in-left">
             <div className="historia-img-frame">
               <img 
                 src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=800&fit=crop" 
@@ -20,7 +20,7 @@ export default function Historia() {
             </div>
           </div>
           
-          <div className="historia-text">
+          <div className="historia-text fade-in-right">
             <div className="section-title">
               <div className="section-label">Nuestra Historia</div>
               <h2>El descubrimiento que cambió todo</h2>

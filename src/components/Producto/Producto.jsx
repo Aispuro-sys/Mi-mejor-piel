@@ -25,7 +25,7 @@ export default function Producto() {
     <section className="section section-producto" id="producto">
       <div className="container">
         <div className="producto-layout">
-          <div className="producto-visual">
+          <div className="producto-visual fade-in-scale">
             <div className="producto-img-container">
               <img 
                 src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&h=600&fit=crop" 
@@ -36,7 +36,7 @@ export default function Producto() {
             </div>
           </div>
           
-          <div className="producto-info">
+          <div className="producto-info fade-in">
             <div className="section-title">
               <div className="section-label">El Producto</div>
               <h2>Nuestro Suero</h2>

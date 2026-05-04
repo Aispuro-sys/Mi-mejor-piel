@@ -15,7 +15,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer-grid">
-          <div className="footer-brand">
+          <div className="footer-brand fade-in">
             <span className="logo-footer">Mi Mejor <em>Piel</em></span>
             <p>
               Suero de Ácido Hialurónico puro, formulado con amor en Tijuana 
@@ -30,7 +30,7 @@ export default function Footer() {
             </div>
           </div>
           
-          <div className="footer-col">
+          <div className="footer-col fade-in delay-1">
             <h4>Navegar</h4>
             <ul>
               {navLinks.map(link => (
@@ -41,7 +41,7 @@ export default function Footer() {
             </ul>
           </div>
           
-          <div className="footer-col">
+          <div className="footer-col fade-in delay-2">
             <h4>Contacto</h4>
             <ul>
               <li>

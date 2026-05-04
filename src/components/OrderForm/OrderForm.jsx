@@ -89,13 +89,13 @@ export default function OrderForm() {
   return (
     <section className="section section-order" id="ordenar">
       <div className="container">
-        <div className="section-title center">
+        <div className="section-title center fade-in">
           <div className="section-label">Ordena Ahora</div>
           <h2>Tu mejor piel está<br />a un mensaje de distancia</h2>
         </div>
         
         <div className="order-layout">
-          <div className="order-form-wrapper">
+          <div className="order-form-wrapper fade-in-left">
             <h3>Haz tu pedido</h3>
             <p className="subtitle">Completa el formulario y te contactamos por WhatsApp para confirmar.</p>
 
@@ -276,7 +276,7 @@ export default function OrderForm() {
           </div>
 
           {/* Map Side */}
-          <div className="map-side">
+          <div className="map-side fade-in-right">
             <div className="section-label">Ubicación</div>
             <h3>Tijuana & Rosarito</h3>
             <p className="desc">

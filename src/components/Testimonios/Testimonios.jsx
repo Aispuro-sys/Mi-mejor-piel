@@ -27,14 +27,14 @@ export default function Testimonios() {
   return (
     <section className="section section-testimonios" id="testimonios">
       <div className="container">
-        <div className="section-title center">
+        <div className="section-title center fade-in">
           <div className="section-label">Testimonios</div>
           <h2>Lo que dicen nuestras clientas</h2>
         </div>
         
         <div className="testimonios-grid">
           {testimonios.map((testimonio, index) => (
-            <div className="testimonio-card" key={index}>
+            <div className={`testimonio-card fade-in delay-${index + 1}`} key={index}>
               <div className="testimonio-stars">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={14} fill="currentColor" />
@@ -56,7 +56,7 @@ export default function Testimonios() {
           ))}
         </div>
         
-        <div className="oferta-section">
+        <div className="oferta-section fade-in-scale">
           <h3>🎁 Oferta Especial</h3>
           <p><strong>¿Eres madre jefa de familia?</strong></p>
           <p>Pregunta por nuestra oferta especial, solo disponible en Tijuana y Rosarito.</p>
