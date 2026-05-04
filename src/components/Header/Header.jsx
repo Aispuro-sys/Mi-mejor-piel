@@ -31,7 +31,11 @@ export default function Header() {
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
         <a href="#home" className="logo">
-          <img src="/logo.png" alt="Mi Mejor Piel" className="logo-img" />
+          <img 
+            src={isScrolled ? "/logo-dark.png" : "/logo.png"} 
+            alt="Mi Mejor Piel" 
+            className="logo-img" 
+          />
           Mi Mejor <em>Piel</em>
         </a>
         
