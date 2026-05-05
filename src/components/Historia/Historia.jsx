@@ -27,25 +27,16 @@ export default function Historia() {
             </div>
             
             <p>
-              Hace 13 años, mientras atendía a una paciente, quedé impresionada por 
-              la calidad y luminosidad de su piel. Cuando le pregunté su edad, 
-              descubrí que era 15 años mayor de lo que aparentaba.
+              Realizando la historia clínica a una paciente, descubrí que su edad cronológica 
+              no correspondía a la que ella aparentaba, la tonicidad de su piel era fácilmente 
+              la de una persona 20 años menor a la edad que ella tenía. Al notar que visiblemente 
+              me sorprendí, me pregunto: ¿quieres saber cuál es mi secreto? Y le contesté que sí, 
+              a lo que ella respondió con una sonrisa amable:
             </p>
             
             <div className="historia-quote">
-              <p>"Llevo 25 años usando ácido hialurónico" — me respondió con una sonrisa.</p>
+              <p>"Llevo 25 años usando ácido hialurónico"</p>
             </div>
-            
-            <p>
-              Ese momento marcó el inicio de mi investigación y pasión por este 
-              ingrediente extraordinario. Después de años de estudio y perfeccionamiento, 
-              creé <strong>Mi Mejor Piel</strong> — un suero de ácido hialurónico puro, 
-              diseñado para darte resultados reales.
-            </p>
-            
-            <p>
-              <strong>Resultados visibles en solo 2 semanas, aplicándolo 2 veces al día.</strong>
-            </p>
             
             <Button href="#ordenar" variant="verde" icon={<Leaf size={18} />}>
               Quiero el mío
