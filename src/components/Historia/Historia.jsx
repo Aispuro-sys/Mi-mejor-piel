@@ -38,6 +38,22 @@ export default function Historia() {
               <p>"Llevo 25 años usando ácido hialurónico"</p>
             </div>
             
+            <p>
+              En ese momento, comenzó mi tarea de investigación acerca de este extraordinario 
+              ingrediente, y después de años de estudio, lectura, análisis de producto, 
+              perfeccionamos este suero para ti.
+            </p>
+            
+            <p>
+              <strong>Mi Mejor Piel</strong>, suero de ácido hialurónico, diseñado para darte 
+              resultados reales en tan solo 2 semanas de uso diario.
+            </p>
+            
+            <p className="historia-nota">
+              Los resultados son visibles aplicándolo desde una vez por día, pero son mayormente 
+              notorios, a las dos semanas y aplicándolo dos veces por día.
+            </p>
+            
             <Button href="#ordenar" variant="verde" icon={<Leaf size={18} />}>
               Quiero el mío
             </Button>
