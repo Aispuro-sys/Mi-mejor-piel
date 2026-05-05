@@ -15,8 +15,9 @@ export default function Hero() {
           <div className="hero-eyebrow">Suero de Ácido Hialurónico</div>
           <h1>Descubre Tu<br />Mejor <em>Piel</em></h1>
           <p className="hero-desc">
-            Un suero diseñado con ingredientes puros para brindarte hidratación 
-            profunda y resultados visibles desde la primera semana. Hecho con amor en Tijuana.
+            Nuestro suero está diseñado con activos de alta calidad, para trabajar principalmente 
+            en arruga profunda y pieles maduras que van perdiendo firmeza con el paso de los años. 
+            ¿Los resultados? Increíbles a tan pocas 2 semanas de uso.
           </p>
           
           <div className="hero-price-row">
@@ -28,8 +29,9 @@ export default function Hero() {
             </div>
             <div className="hero-divider"></div>
             <div className="hero-badge">
-              <strong>Resultados en 2 semanas</strong>
+              <strong>Resultados en 1-2 semanas</strong>
               Aplicando 2 veces al día
+              <small>Solo como mantenimiento, 1 vez por día</small>
             </div>
           </div>
           
