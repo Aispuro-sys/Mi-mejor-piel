@@ -63,6 +63,10 @@ export default function Producto() {
               Ordenar ahora — $300 MXN
             </Button>
             
+            <a href="#ordenar" className="vender-link">
+              ¿Te interesa venderlo? <span>Pulsa aquí para saber cómo</span>
+            </a>
+            
             <div className="faq-grid">
               {faqs.map((faq, index) => (
                 <div className="faq-item" key={index}>
