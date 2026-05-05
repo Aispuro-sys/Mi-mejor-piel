@@ -12,7 +12,7 @@ export default function Hero() {
       
       <div className="container">
         <div className="hero-content">
-          <div className="hero-eyebrow">Suero de Ácido Hialurónico Puro</div>
+          <div className="hero-eyebrow">Suero de Ácido Hialurónico</div>
           <h1>Descubre Tu<br />Mejor <em>Piel</em></h1>
           <p className="hero-desc">
             Un suero diseñado con ingredientes puros para brindarte hidratación 
