@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^9.4.0",
+    "@vercel/node": "^5.7.15",
     "lucide-react": "^1.14.0",
+    "nodemailer": "^8.0.7",
+    "pg": "^8.20.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "react-router-dom": "^7.14.2"
+    "react-router-dom": "^7.15.0",
+    "stripe": "^22.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
