@@ -16,8 +16,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const sql = neon(process.env.DATABASE_URL);
+    // Verificar que la key existe
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY no está configurada');
+      return res.status(500).json({ error: 'Error de configuración del servidor' });
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2023-10-16',
+    });
 
     const { amount, customerInfo, orderInfo } = req.body;
 
