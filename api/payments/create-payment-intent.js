@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
   // Configurar CORS
@@ -55,6 +56,37 @@ export default async function handler(req, res) {
       },
       receipt_email: customerInfo.email,
     });
+
+    // Guardar en base de datos (opcional)
+    if (process.env.DATABASE_URL) {
+      try {
+        const sql = neon(process.env.DATABASE_URL);
+        await sql`
+          INSERT INTO orders (
+            id, customer_name, customer_email, customer_phone, 
+            quantity, unit_price, total_amount, currency, status, payment_status,
+            payment_intent_id, delivery_method, shipping_address, created_at
+          ) VALUES (
+            ${orderInfo.id}, 
+            ${customerInfo.name}, 
+            ${customerInfo.email}, 
+            ${customerInfo.phone || ''}, 
+            ${orderInfo.quantity || 1}, 
+            300,
+            ${amount}, 
+            'mxn',
+            'pending', 
+            'pending',
+            ${paymentIntent.id}, 
+            ${orderInfo.delivery || 'pickup'},
+            ${customerInfo.address || ''},
+            NOW()
+          )
+        `;
+      } catch (dbError) {
+        console.error('DB Error:', dbError.message);
+      }
+    }
 
     res.status(200).json({
       clientSecret: paymentIntent.client_secret,
