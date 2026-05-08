@@ -49,33 +49,36 @@ export default async function handler(req, res) {
       description: `Suero de Ácido Hialurónico x${orderInfo.quantity} - Mi Mejor Piel`,
     });
 
-    // Guardar orden en la base de datos
-    try {
-      await sql`
-        INSERT INTO orders (
-          id, customer_name, customer_email, customer_phone, 
-          quantity, unit_price, total_amount, currency, status, payment_status,
-          payment_intent_id, delivery_method, shipping_address, created_at
-        ) VALUES (
-          ${orderInfo.id}, 
-          ${customerInfo.name}, 
-          ${customerInfo.email}, 
-          ${customerInfo.phone}, 
-          ${orderInfo.quantity}, 
-          300,
-          ${amount}, 
-          'mxn',
-          'pending', 
-          'pending',
-          ${paymentIntent.id}, 
-          ${orderInfo.delivery || 'pickup'},
-          ${customerInfo.address || ''},
-          NOW()
-        )
-      `;
-    } catch (dbError) {
-      console.error('Error guardando en DB:', dbError);
-      // Continuar aunque falle la DB - el pago es más importante
+    // Guardar orden en la base de datos (opcional)
+    if (process.env.DATABASE_URL) {
+      try {
+        const sql = neon(process.env.DATABASE_URL);
+        await sql`
+          INSERT INTO orders (
+            id, customer_name, customer_email, customer_phone, 
+            quantity, unit_price, total_amount, currency, status, payment_status,
+            payment_intent_id, delivery_method, shipping_address, created_at
+          ) VALUES (
+            ${orderInfo.id}, 
+            ${customerInfo.name}, 
+            ${customerInfo.email}, 
+            ${customerInfo.phone}, 
+            ${orderInfo.quantity}, 
+            300,
+            ${amount}, 
+            'mxn',
+            'pending', 
+            'pending',
+            ${paymentIntent.id}, 
+            ${orderInfo.delivery || 'pickup'},
+            ${customerInfo.address || ''},
+            NOW()
+          )
+        `;
+      } catch (dbError) {
+        console.error('Error guardando en DB:', dbError.message);
+        // Continuar aunque falle la DB - el pago es más importante
+      }
     }
 
     res.status(200).json({
@@ -85,12 +88,9 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Error creating payment intent:', error.message);
-    console.error('Error type:', error.type);
-    console.error('Error code:', error.code);
     res.status(500).json({ 
       error: 'Error al crear el pago',
-      details: error.message,
-      type: error.type || 'unknown'
+      details: error.message
     });
   }
 }
