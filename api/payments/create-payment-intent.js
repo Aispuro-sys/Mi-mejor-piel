@@ -94,10 +94,14 @@ export default async function handler(req, res) {
       paymentIntentId: paymentIntent.id,
     });
   } catch (error) {
-    console.error('Stripe Error:', error.message);
+    console.error('Stripe Error:', error);
+    console.error('Error message:', error.message);
+    console.error('Error type:', error.type);
+    console.error('Error raw:', error.raw);
     res.status(500).json({ 
       error: 'Error al crear el pago',
       details: error.message,
+      type: error.type || 'unknown',
       code: error.code || 'unknown'
     });
   }
