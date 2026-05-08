@@ -1,5 +1,4 @@
 import Stripe from 'stripe';
-import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
   // Configurar CORS
@@ -16,13 +15,25 @@ export default async function handler(req, res) {
   }
 
   try {
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    
     // Verificar que la key existe
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error('STRIPE_SECRET_KEY no está configurada');
-      return res.status(500).json({ error: 'Error de configuración del servidor' });
+    if (!secretKey) {
+      return res.status(500).json({ 
+        error: 'STRIPE_SECRET_KEY no configurada',
+        hint: 'Agrega STRIPE_SECRET_KEY en Vercel Environment Variables'
+      });
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    // Verificar que es una secret key (sk_) no publishable (pk_)
+    if (!secretKey.startsWith('sk_')) {
+      return res.status(500).json({ 
+        error: 'STRIPE_SECRET_KEY inválida',
+        hint: 'La key debe empezar con sk_test_ o sk_live_'
+      });
+    }
+
+    const stripe = new Stripe(secretKey, {
       apiVersion: '2023-10-16',
     });
 
@@ -35,51 +46,15 @@ export default async function handler(req, res) {
 
     // Crear Payment Intent en Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convertir a centavos
+      amount: Math.round(amount * 100),
       currency: 'mxn',
       metadata: {
         customerName: customerInfo.name,
         customerEmail: customerInfo.email,
-        customerPhone: customerInfo.phone,
         orderId: orderInfo.id,
-        quantity: orderInfo.quantity.toString(),
-        delivery: orderInfo.delivery || 'pickup',
       },
       receipt_email: customerInfo.email,
-      description: `Suero de Ácido Hialurónico x${orderInfo.quantity} - Mi Mejor Piel`,
     });
-
-    // Guardar orden en la base de datos (opcional)
-    if (process.env.DATABASE_URL) {
-      try {
-        const sql = neon(process.env.DATABASE_URL);
-        await sql`
-          INSERT INTO orders (
-            id, customer_name, customer_email, customer_phone, 
-            quantity, unit_price, total_amount, currency, status, payment_status,
-            payment_intent_id, delivery_method, shipping_address, created_at
-          ) VALUES (
-            ${orderInfo.id}, 
-            ${customerInfo.name}, 
-            ${customerInfo.email}, 
-            ${customerInfo.phone}, 
-            ${orderInfo.quantity}, 
-            300,
-            ${amount}, 
-            'mxn',
-            'pending', 
-            'pending',
-            ${paymentIntent.id}, 
-            ${orderInfo.delivery || 'pickup'},
-            ${customerInfo.address || ''},
-            NOW()
-          )
-        `;
-      } catch (dbError) {
-        console.error('Error guardando en DB:', dbError.message);
-        // Continuar aunque falle la DB - el pago es más importante
-      }
-    }
 
     res.status(200).json({
       clientSecret: paymentIntent.client_secret,
@@ -87,10 +62,11 @@ export default async function handler(req, res) {
       paymentIntentId: paymentIntent.id,
     });
   } catch (error) {
-    console.error('Error creating payment intent:', error.message);
+    console.error('Stripe Error:', error.message);
     res.status(500).json({ 
       error: 'Error al crear el pago',
-      details: error.message
+      details: error.message,
+      code: error.code || 'unknown'
     });
   }
 }
