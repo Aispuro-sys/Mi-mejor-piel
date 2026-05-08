@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Store, Truck, MapPin, ShoppingBag, Plus, Minus } from 'lucide-react';
+import { Store, Truck, MapPin, ShoppingBag, Plus, Minus, MessageCircle } from 'lucide-react';
 import { CONFIG } from '../../utils/config';
 import { Button } from '../UI';
 import './OrderForm.css';
