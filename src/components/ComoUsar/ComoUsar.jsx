@@ -1,23 +1,23 @@
-import { Droplets, Hand, Sun, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import './ComoUsar.css';
 
 const steps = [
   {
     num: '01',
-    icon: <Droplets size={22} />,
-    title: 'Limpia tu rostro',
+    title: 'Limpia',
+    subtitle: 'tu rostro',
     desc: 'Lava tu cara con tu limpiador habitual. Sécala suavemente con una toalla limpia dando pequeños toquecitos.'
   },
   {
     num: '02',
-    icon: <Hand size={22} />,
-    title: 'Aplica el suero',
+    title: 'Aplica',
+    subtitle: 'el suero',
     desc: 'Con la piel seca, aplica unas gotas del suero como primer producto. Masajea suavemente hasta que se absorba por completo.'
   },
   {
     num: '03',
-    icon: <Sun size={22} />,
-    title: 'Hidrata y protege',
+    title: 'Hidrata',
+    subtitle: 'y protege',
     desc: 'Después aplica tu crema hidratante habitual. En el día, siempre finaliza con bloqueador solar.'
   }
 ];
@@ -34,9 +34,13 @@ export default function ComoUsar() {
         <div className="steps-grid">
           {steps.map((step, index) => (
             <div className={`step-item fade-in delay-${index + 1}`} key={index}>
-              <div className="step-num">{step.num}</div>
-              <div className="step-icon">{step.icon}</div>
-              <h3>{step.title}</h3>
+              <div className="step-header">
+                <div className="step-num">{step.num}</div>
+                <div className="step-title-group">
+                  <h3>{step.title}</h3>
+                  <span className="step-subtitle">{step.subtitle}</span>
+                </div>
+              </div>
               <p>{step.desc}</p>
             </div>
           ))}

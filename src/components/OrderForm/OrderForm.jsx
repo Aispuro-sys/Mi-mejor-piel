@@ -1,22 +1,16 @@
 import { useState } from 'react';
-import { Store, Truck, MapPin, MessageCircle, Lock, Plus, Minus } from 'lucide-react';
-import { CONFIG, PRICES } from '../../utils/config';
+import { useNavigate } from 'react-router-dom';
+import { Store, Truck, MapPin, ShoppingBag, Plus, Minus } from 'lucide-react';
+import { CONFIG } from '../../utils/config';
 import { Button } from '../UI';
 import './OrderForm.css';
 
 export default function OrderForm() {
+  const navigate = useNavigate();
   const [selectedQty, setSelectedQty] = useState(2);
   const [customQty, setCustomQty] = useState(4);
   const [useCustomQty, setUseCustomQty] = useState(false);
   const [selectedDelivery, setSelectedDelivery] = useState('pickup');
-  const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    ciudad: '',
-    direccion: '',
-    mensaje: ''
-  });
-  const [errors, setErrors] = useState({});
 
   const actualQty = useCustomQty ? customQty : selectedQty;
   const selectedPrice = actualQty * CONFIG.pricePerUnit;
@@ -38,52 +32,9 @@ export default function OrderForm() {
     setCustomQty(prev => (prev > 4 ? prev - 1 : 4));
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.nombre.trim()) newErrors.nombre = 'Por favor ingresa tu nombre';
-    if (!formData.telefono.trim()) {
-      newErrors.telefono = 'Por favor ingresa tu teléfono';
-    } else if (formData.telefono.replace(/\D/g, '').length < 10) {
-      newErrors.telefono = 'Ingresa un número válido (mínimo 10 dígitos)';
-    }
-    if (!formData.ciudad) newErrors.ciudad = 'Por favor selecciona tu ciudad';
-    if (selectedDelivery === 'delivery' && !formData.direccion.trim()) {
-      newErrors.direccion = 'Por favor ingresa tu dirección de entrega';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = () => {
-    if (!validateForm()) return;
-
-    const deliveryText = selectedDelivery === 'pickup' 
-      ? 'Recolección en punto de encuentro' 
-      : `Envío a domicilio: ${formData.direccion.trim()}`;
-    
-    let waMsg = `*NUEVO PEDIDO - Mi Mejor Piel*\n`;
-    waMsg += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    waMsg += `• *Nombre:* ${formData.nombre.trim()}\n`;
-    waMsg += `• *Teléfono:* ${formData.telefono.trim()}\n`;
-    waMsg += `• *Ciudad:* ${formData.ciudad}\n`;
-    waMsg += `• *Cantidad:* ${actualQty} frasco${actualQty > 1 ? 's' : ''}\n`;
-    waMsg += `• *Entrega:* ${deliveryText}\n`;
-    waMsg += `• *Total:* $${selectedPrice} MXN\n`;
-    if (formData.mensaje.trim()) {
-      waMsg += `\n*Nota:* ${formData.mensaje.trim()}\n`;
-    }
-    waMsg += `\n━━━━━━━━━━━━━━━━━━━━━\n`;
-    waMsg += `Gracias por tu pedido!`;
-
-    window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(waMsg)}`, '_blank');
+  const handleProceedToCheckout = () => {
+    // Navegar a la página de checkout con los parámetros
+    navigate(`/checkout?qty=${actualQty}&delivery=${selectedDelivery}`);
   };
 
   return (
@@ -97,7 +48,7 @@ export default function OrderForm() {
         <div className="order-layout">
           <div className="order-form-wrapper fade-in-left">
             <h3>Haz tu pedido</h3>
-            <p className="subtitle">Completa el formulario y te contactamos por WhatsApp para confirmar.</p>
+            <p className="subtitle">Selecciona la cantidad y el tipo de entrega para continuar.</p>
 
             {/* Qty Selector */}
             <div className="form-label">¿Cuántos frascos?</div>
@@ -176,80 +127,6 @@ export default function OrderForm() {
               </div>
             </div>
 
-            {/* Form Fields */}
-            <div className="form-group">
-              <label className="form-label" htmlFor="nombre">Nombre completo</label>
-              <input 
-                type="text" 
-                id="nombre" 
-                name="nombre"
-                className={`form-control ${errors.nombre ? 'error' : ''}`}
-                placeholder="Tu nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
-              />
-              {errors.nombre && <span className="error-msg">{errors.nombre}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="telefono">WhatsApp / Teléfono</label>
-              <input 
-                type="tel" 
-                id="telefono" 
-                name="telefono"
-                className={`form-control ${errors.telefono ? 'error' : ''}`}
-                placeholder="(664) 000-0000"
-                value={formData.telefono}
-                onChange={handleInputChange}
-              />
-              {errors.telefono && <span className="error-msg">{errors.telefono}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="ciudad">Ciudad</label>
-              <select 
-                id="ciudad" 
-                name="ciudad"
-                className={`form-control ${errors.ciudad ? 'error' : ''}`}
-                value={formData.ciudad}
-                onChange={handleInputChange}
-              >
-                <option value="">Selecciona tu ciudad</option>
-                <option value="Tijuana">Tijuana</option>
-                <option value="Rosarito">Rosarito</option>
-                <option value="Otra">Otra ciudad</option>
-              </select>
-              {errors.ciudad && <span className="error-msg">{errors.ciudad}</span>}
-            </div>
-
-            {selectedDelivery === 'delivery' && (
-              <div className="form-group">
-                <label className="form-label" htmlFor="direccion">Dirección de entrega</label>
-                <input 
-                  type="text" 
-                  id="direccion" 
-                  name="direccion"
-                  className={`form-control ${errors.direccion ? 'error' : ''}`}
-                  placeholder="Calle, número, colonia"
-                  value={formData.direccion}
-                  onChange={handleInputChange}
-                />
-                {errors.direccion && <span className="error-msg">{errors.direccion}</span>}
-              </div>
-            )}
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="mensaje">Mensaje o pregunta (opcional)</label>
-              <textarea 
-                id="mensaje" 
-                name="mensaje"
-                className="form-control"
-                placeholder="¿Tienes alguna pregunta sobre el producto?"
-                value={formData.mensaje}
-                onChange={handleInputChange}
-              />
-            </div>
-
             {/* Order Summary */}
             <div className="order-summary">
               <div className="order-summary-row">
@@ -266,12 +143,12 @@ export default function OrderForm() {
               </div>
             </div>
 
-            <Button variant="whatsapp" onClick={handleSubmit}>
-              <MessageCircle size={20} /> Enviar pedido por WhatsApp
+            <Button variant="verde" onClick={handleProceedToCheckout}>
+              <ShoppingBag size={20} /> Continuar con el pedido
             </Button>
             
             <p className="order-note">
-              <Lock size={12} /> Tu información es privada y solo se usará para coordinar tu pedido.
+              Puedes pagar con tarjeta o en efectivo al recibir tu pedido.
             </p>
           </div>
 

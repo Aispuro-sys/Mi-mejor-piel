@@ -42,19 +42,54 @@
   padding: 48px 36px;
   background: rgba(255,255,255,0.03);
   transition: background var(--transition-normal);
+  display: flex;
+  flex-direction: column;
 }
 
 .step-item:hover {
   background: rgba(255,255,255,0.07);
 }
 
+.step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
 .step-num {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 80px;
+  font-size: 64px;
   font-weight: 300;
-  color: rgba(255,255,255,0.08);
-  line-height: 1;
-  margin-bottom: 12px;
+  color: rgba(255,255,255,0.12);
+  line-height: 0.9;
+  flex-shrink: 0;
+}
+
+.step-title-group {
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+}
+
+.step-title-group h3 {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.step-title-group .step-subtitle {
+  font-size: 13px;
+  color: var(--rosa);
+  font-weight: 400;
+}
+
+.step-item p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+  flex-grow: 1;
 }
 
 .step-icon {
@@ -67,18 +102,13 @@
   justify-content: center;
   margin-bottom: 20px;
   color: var(--rosa);
+  display: none;
 }
 
 .step-item h3 {
   font-size: 22px;
   color: white;
   margin-bottom: 12px;
-}
-
-.step-item p {
-  font-size: 14.5px;
-  color: rgba(255,255,255,0.62);
-  line-height: 1.75;
 }
 
 .sensibilidad-nota {
