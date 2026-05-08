@@ -84,7 +84,13 @@ export default async function handler(req, res) {
       paymentIntentId: paymentIntent.id,
     });
   } catch (error) {
-    console.error('Error creating payment intent:', error);
-    res.status(500).json({ error: error.message });
+    console.error('Error creating payment intent:', error.message);
+    console.error('Error type:', error.type);
+    console.error('Error code:', error.code);
+    res.status(500).json({ 
+      error: 'Error al crear el pago',
+      details: error.message,
+      type: error.type || 'unknown'
+    });
   }
 }
