@@ -1,20 +1,34 @@
 import Stripe from 'stripe';
 import { neon } from '@neondatabase/serverless';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const sql = neon(process.env.DATABASE_URL);
-
 export default async function handler(req, res) {
+  // Configurar CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const sql = neon(process.env.DATABASE_URL);
+
     const { amount, customerInfo, orderInfo } = req.body;
+
+    // Validar datos requeridos
+    if (!amount || !customerInfo || !orderInfo) {
+      return res.status(400).json({ error: 'Datos incompletos' });
+    }
 
     // Crear Payment Intent en Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Convertir a centavos
+      amount: Math.round(amount * 100), // Convertir a centavos
       currency: 'mxn',
       metadata: {
         customerName: customerInfo.name,
@@ -22,27 +36,45 @@ export default async function handler(req, res) {
         customerPhone: customerInfo.phone,
         orderId: orderInfo.id,
         quantity: orderInfo.quantity.toString(),
+        delivery: orderInfo.delivery || 'pickup',
       },
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      receipt_email: customerInfo.email,
+      description: `Suero de Ácido Hialurónico x${orderInfo.quantity} - Mi Mejor Piel`,
     });
 
     // Guardar orden en la base de datos
-    await sql`
-      INSERT INTO orders (
-        id, customer_name, customer_email, customer_phone, 
-        quantity, amount, status, payment_intent_id, created_at
-      ) VALUES (
-        ${orderInfo.id}, ${customerInfo.name}, ${customerInfo.email}, 
-        ${customerInfo.phone}, ${orderInfo.quantity}, ${amount}, 
-        'pending', ${paymentIntent.id}, NOW()
-      )
-    `;
+    try {
+      await sql`
+        INSERT INTO orders (
+          id, customer_name, customer_email, customer_phone, 
+          quantity, unit_price, total_amount, currency, status, payment_status,
+          payment_intent_id, delivery_method, shipping_address, created_at
+        ) VALUES (
+          ${orderInfo.id}, 
+          ${customerInfo.name}, 
+          ${customerInfo.email}, 
+          ${customerInfo.phone}, 
+          ${orderInfo.quantity}, 
+          300,
+          ${amount}, 
+          'mxn',
+          'pending', 
+          'pending',
+          ${paymentIntent.id}, 
+          ${orderInfo.delivery || 'pickup'},
+          ${customerInfo.address || ''},
+          NOW()
+        )
+      `;
+    } catch (dbError) {
+      console.error('Error guardando en DB:', dbError);
+      // Continuar aunque falle la DB - el pago es más importante
+    }
 
     res.status(200).json({
       clientSecret: paymentIntent.client_secret,
       orderId: orderInfo.id,
+      paymentIntentId: paymentIntent.id,
     });
   } catch (error) {
     console.error('Error creating payment intent:', error);

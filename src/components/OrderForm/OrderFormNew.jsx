@@ -115,8 +115,8 @@ export default function OrderFormNew() {
         email: formData.email,
         phone: formData.telefono,
         address: selectedDelivery === 'delivery' 
-          ? `${formData.direccion}, ${formData.colonia}, ${formData.cp}, ${formData.ciudad}`
-          : 'Recolección en tienda'
+          ? `${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}`
+          : 'Recolección en tienda - Tijuana/Rosarito'
       },
       orderInfo: {
         id: generateOrderId(),
@@ -126,23 +126,30 @@ export default function OrderFormNew() {
     };
 
     return (
-      <div className="order-form-wrapper">
-        <div className="payment-container">
-          <h2>Pagar con Tarjeta</h2>
-          <PaymentForm
-            orderData={orderData}
-            onPaymentSuccess={handlePaymentSuccess}
-            onPaymentError={handlePaymentError}
-          />
-          <Button
-            variant="outline"
-            onClick={() => setShowPayment(false)}
-            className="back-button"
-          >
-            ← Volver al formulario
-          </Button>
+      <section className="section section-order" id="ordenar">
+        <div className="container">
+          <div className="section-title center fade-in">
+            <div className="section-label">Pago Seguro</div>
+            <h2>Completa tu pedido</h2>
+          </div>
+          
+          <div className="payment-wrapper">
+            <PaymentForm
+              orderData={orderData}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+            />
+            
+            <button
+              type="button"
+              onClick={() => setShowPayment(false)}
+              className="back-link"
+            >
+              ← Volver a modificar pedido
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     );
   }
 

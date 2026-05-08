@@ -517,3 +517,27 @@ textarea.form-control {
     height: 40px;
   }
 }
+
+/* Payment Wrapper */
+.payment-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 24px;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: var(--mauve);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+  color: var(--verde);
+}
