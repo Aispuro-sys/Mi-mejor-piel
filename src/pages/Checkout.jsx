@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Store, Truck, CreditCard, Banknote, ArrowLeft, Lock, CheckCircle } from 'lucide-react';
+import { Store, Truck, CreditCard, Banknote, ArrowLeft, Lock, CheckCircle, Download, Home } from 'lucide-react';
 import { CONFIG } from '../utils/config';
 import { Button } from '../components/UI';
 import PaymentForm from '../components/PaymentForm/PaymentForm';
@@ -19,6 +19,8 @@ export default function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState(null);
+  const [paymentError, setPaymentError] = useState(null);
+  const receiptRef = useRef(null);
   
   const [formData, setFormData] = useState({
     nombre: '',
@@ -140,8 +142,94 @@ export default function Checkout() {
 
   const handlePaymentError = (error) => {
     console.error('Payment error:', error);
-    alert('Error al procesar el pago. Por favor intenta nuevamente.');
+    setPaymentError(error.message || 'Error al procesar el pago');
   };
+
+  const downloadReceipt = () => {
+    const receiptContent = `
+═══════════════════════════════════════════
+         MI MEJOR PIEL - COMPROBANTE
+═══════════════════════════════════════════
+
+Número de Pedido: ${orderId}
+Fecha: ${new Date().toLocaleDateString('es-MX', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })}
+
+───────────────────────────────────────────
+DATOS DEL CLIENTE
+───────────────────────────────────────────
+Nombre: ${formData.nombre}
+Teléfono: ${formData.telefono}
+Email: ${formData.email}
+
+───────────────────────────────────────────
+DETALLE DEL PEDIDO
+───────────────────────────────────────────
+Producto: Suero de Ácido Hialurónico
+Cantidad: ${qty}
+Precio unitario: $300 MXN
+
+───────────────────────────────────────────
+Subtotal: $${totalPrice} MXN
+Envío: ${delivery === 'pickup' ? 'Recolección en tienda (Gratis)' : 'A domicilio'}
+${delivery === 'delivery' ? `Dirección: ${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}` : ''}
+
+TOTAL: $${totalPrice} MXN
+───────────────────────────────────────────
+
+Método de pago: ${paymentMethod === 'card' ? 'Tarjeta de crédito/débito' : 'Efectivo'}
+Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
+
+═══════════════════════════════════════════
+        ¡Gracias por tu compra!
+    www.mi-mejor-piel.vercel.app
+═══════════════════════════════════════════
+    `;
+
+    const blob = new Blob([receiptContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `comprobante-${orderId}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Pantalla de error de pago
+  if (paymentError) {
+    return (
+      <div className="checkout-page">
+        <div className="checkout-container">
+          <div className="order-error">
+            <div className="error-icon">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <h1>Error en el Pago</h1>
+            <p className="error-message-text">{paymentError}</p>
+            <div className="error-actions">
+              <Button variant="verde" onClick={() => { setPaymentError(null); setStep(2); }}>
+                Intentar de Nuevo
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/')} icon={<Home size={18} />}>
+                Volver al Inicio
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Pantalla de pedido completado
   if (orderComplete) {
@@ -184,9 +272,14 @@ export default function Checkout() {
               </div>
             )}
             
-            <Button variant="verde" onClick={() => navigate('/')}>
-              Volver al Inicio
-            </Button>
+            <div className="success-actions">
+              <Button variant="verde" onClick={downloadReceipt} icon={<Download size={18} />}>
+                Descargar Comprobante
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/')} icon={<Home size={18} />}>
+                Volver al Inicio
+              </Button>
+            </div>
           </div>
         </div>
       </div>

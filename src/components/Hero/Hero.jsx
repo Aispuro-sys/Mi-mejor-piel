@@ -2,10 +2,19 @@ import { ShoppingBag } from 'lucide-react';
 import { Button } from '../UI';
 import './Hero.css';
 
+import heroBg from '../../assets/images/images-moves/1.png';
+
 export default function Hero() {
   return (
     <section className="hero" id="home">
-      <div className="hero-bg"></div>
+      <div className="hero-bg">
+        <div className="hero-slide full active">
+          <div className="slide-item">
+            <img src={heroBg} alt="Mi Mejor Piel" />
+          </div>
+        </div>
+        <div className="hero-overlay"></div>
+      </div>
       <div className="hero-deco hero-deco-1"></div>
       <div className="hero-deco hero-deco-2"></div>
       <div className="hero-deco hero-deco-3"></div>

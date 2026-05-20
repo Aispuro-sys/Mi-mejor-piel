@@ -2,6 +2,16 @@ import { Star, Gift } from 'lucide-react';
 import { Button } from '../UI';
 import './Testimonios.css';
 
+// Importar imágenes de testimonios record
+import record1 from '../../assets/images/imagenes-testimonios-record/record 1.png';
+import record2 from '../../assets/images/imagenes-testimonios-record/record 2.png';
+import record3 from '../../assets/images/imagenes-testimonios-record/record 3.png';
+import record4 from '../../assets/images/imagenes-testimonios-record/record 4.png';
+import record5 from '../../assets/images/imagenes-testimonios-record/record 5.png';
+import record6 from '../../assets/images/imagenes-testimonios-record/record 6.png';
+
+const recordImages = [record1, record2, record3, record4, record5, record6];
+
 const testimonios = [
   {
     text: 'En solo 2 semanas noté mi piel más hidratada y luminosa. ¡No puedo creer la diferencia que ha hecho en mi rutina diaria!',
@@ -54,6 +64,17 @@ export default function Testimonios() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="testimonios-records fade-in">
+          <h3>Resultados Reales</h3>
+          <div className="records-grid">
+            {recordImages.map((img, index) => (
+              <div className="record-item" key={index}>
+                <img src={img} alt={`Testimonio ${index + 1}`} />
+              </div>
+            ))}
+          </div>
         </div>
         
         <div className="oferta-section fade-in-scale">
