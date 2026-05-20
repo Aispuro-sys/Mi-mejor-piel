@@ -10,26 +10,43 @@ import record4 from '../../assets/images/imagenes-testimonios-record/record 4.pn
 import record5 from '../../assets/images/imagenes-testimonios-record/record 5.png';
 import record6 from '../../assets/images/imagenes-testimonios-record/record 6.png';
 
-const recordImages = [record1, record2, record3, record4, record5, record6];
-
+// Testimonios combinados con imágenes de resultados
 const testimonios = [
   {
-    text: 'En solo 2 semanas noté mi piel más hidratada y luminosa. ¡No puedo creer la diferencia que ha hecho en mi rutina diaria!',
+    text: 'En solo 2 semanas noté mi piel más hidratada y luminosa. ¡No puedo creer la diferencia!',
     name: 'María G.',
     location: 'Tijuana, B.C.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face'
+    image: record1
   },
   {
-    text: 'Lo uso todas las mañanas y noches. Mi piel se siente suave como nunca y las líneas de expresión se han reducido notablemente.',
+    text: 'Lo uso todas las mañanas y noches. Mi piel se siente suave como nunca.',
     name: 'Laura P.',
     location: 'Rosarito, B.C.',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face'
+    image: record2
   },
   {
-    text: 'El mejor producto que he probado. Simple, efectivo y a un precio muy accesible. ¡100% recomendado para todas las edades!',
+    text: 'El mejor producto que he probado. Simple, efectivo y a un precio accesible.',
     name: 'Carmen R.',
     location: 'Tijuana, B.C.',
-    avatar: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=80&h=80&fit=crop&crop=face'
+    image: record3
+  },
+  {
+    text: 'Las líneas de expresión se han reducido notablemente. ¡Increíble!',
+    name: 'Rosa M.',
+    location: 'Tijuana, B.C.',
+    image: record4
+  },
+  {
+    text: 'Mi piel luce más joven y radiante. Lo recomiendo totalmente.',
+    name: 'Patricia S.',
+    location: 'Rosarito, B.C.',
+    image: record5
+  },
+  {
+    text: 'Resultados visibles desde la primera semana. ¡Estoy encantada!',
+    name: 'Ana L.',
+    location: 'Tijuana, B.C.',
+    image: record6
   }
 ];
 
@@ -44,37 +61,26 @@ export default function Testimonios() {
         
         <div className="testimonios-grid">
           {testimonios.map((testimonio, index) => (
-            <div className={`testimonio-card fade-in delay-${index + 1}`} key={index}>
-              <div className="testimonio-stars">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} fill="currentColor" />
-                ))}
+            <div className={`testimonio-card fade-in delay-${(index % 3) + 1}`} key={index}>
+              <div className="testimonio-image">
+                <img src={testimonio.image} alt={`Resultado de ${testimonio.name}`} />
               </div>
-              <p className="testimonio-text">{testimonio.text}</p>
-              <div className="testimonio-author">
-                <img 
-                  src={testimonio.avatar} 
-                  alt={testimonio.name}
-                  className="author-avatar"
-                />
-                <div className="author-info">
-                  <strong>{testimonio.name}</strong>
-                  <span>{testimonio.location}</span>
+              <div className="testimonio-content">
+                <div className="testimonio-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <p className="testimonio-text">"{testimonio.text}"</p>
+                <div className="testimonio-author">
+                  <div className="author-info">
+                    <strong>{testimonio.name}</strong>
+                    <span>{testimonio.location}</span>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="testimonios-records fade-in">
-          <h3>Resultados Reales</h3>
-          <div className="records-grid">
-            {recordImages.map((img, index) => (
-              <div className="record-item" key={index}>
-                <img src={img} alt={`Testimonio ${index + 1}`} />
-              </div>
-            ))}
-          </div>
         </div>
         
         <div className="oferta-section fade-in-scale">
