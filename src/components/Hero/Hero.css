@@ -61,7 +61,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center right;
   transform: scale(1.05);
   transition: transform 8s ease-out;
 }
@@ -306,6 +306,19 @@
   .hero-deco {
     display: none;
   }
+  
+  .slide-item img {
+    object-position: 70% center;
+  }
+  
+  .hero-overlay {
+    background: 
+      linear-gradient(135deg, 
+        rgba(78, 92, 68, 0.82) 0%, 
+        rgba(61, 77, 53, 0.78) 40%, 
+        rgba(90, 107, 80, 0.75) 70%,
+        rgba(107, 122, 94, 0.78) 100%);
+  }
 }
 
 @media (max-width: 480px) {
@@ -343,5 +356,17 @@
   .hero-actions .btn {
     width: 100%;
     justify-content: center;
+  }
+  
+  .slide-item img {
+    object-position: 65% center;
+  }
+  
+  .hero-overlay {
+    background: 
+      linear-gradient(180deg, 
+        rgba(78, 92, 68, 0.75) 0%, 
+        rgba(61, 77, 53, 0.7) 50%, 
+        rgba(90, 107, 80, 0.65) 100%);
   }
 }
