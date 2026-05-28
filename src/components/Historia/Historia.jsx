@@ -1,5 +1,6 @@
 import { Leaf } from 'lucide-react';
 import { Button } from '../UI';
+import historiaImg from '../../assets/images/images-moves/gemini3.png';
 import './Historia.css';
 
 export default function Historia() {
@@ -10,7 +11,7 @@ export default function Historia() {
           <div className="historia-img-wrapper fade-in-left">
             <div className="historia-img-frame">
               <img 
-                src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=800&fit=crop" 
+                src={historiaImg} 
                 alt="Mujer con piel radiante"
               />
             </div>

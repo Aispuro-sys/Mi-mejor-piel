@@ -1,5 +1,6 @@
 import { Check, ShoppingBag } from 'lucide-react';
 import { Button } from '../UI';
+import productoImg from '../../assets/images/images-moves/gemini1.png';
 import './Producto.css';
 
 const beneficios = [
@@ -28,11 +29,11 @@ export default function Producto() {
           <div className="producto-visual fade-in-scale">
             <div className="producto-img-container">
               <img 
-                src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&h=600&fit=crop" 
+                src={productoImg} 
                 alt="Suero de Ácido Hialurónico"
                 className="producto-img"
               />
-              <div className="producto-img-badge">✦ Ácido Hialurónico Puro ✦</div>
+              <div className="producto-img-badge">Ácido Hialurónico de Alta Pureza<br /><small>Hialuronato de Sodio • Conservadores: Caprylyl Glycol y Fenoxietanol</small></div>
             </div>
           </div>
           

@@ -1,16 +1,52 @@
 import { ShoppingBag } from 'lucide-react';
 import { Button } from '../UI';
+import { useState, useEffect } from 'react';
 import './Hero.css';
 
-import heroBg from '../../assets/images/images-moves/1.png';
+import heroBg1 from '../../assets/images/images-moves/gemini4.png';
+import heroBg2 from '../../assets/images/images-moves/1.png';
+import heroBg3 from '../../assets/images/images-moves/gemini2.png';
+import heroBg4 from '../../assets/images/images-moves/gemini5.png';
+import heroBg5 from '../../assets/images/images-moves/gemini6.png';
 
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 5;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="hero" id="home">
       <div className="hero-bg">
-        <div className="hero-slide full active">
+        <div className={`hero-slide full ${currentSlide === 0 ? 'active' : ''}`}>
           <div className="slide-item">
-            <img src={heroBg} alt="Mi Mejor Piel" />
+            <img src={heroBg1} alt="Mi Mejor Piel" />
+          </div>
+        </div>
+        <div className={`hero-slide ${currentSlide === 1 ? 'active' : ''}`}>
+          <div className="slide-item">
+            <img src={heroBg2} alt="Mi Mejor Piel" />
+          </div>
+        </div>
+        <div className={`hero-slide ${currentSlide === 2 ? 'active' : ''}`}>
+          <div className="slide-item">
+            <img src={heroBg3} alt="Mi Mejor Piel" />
+          </div>
+        </div>
+        <div className={`hero-slide ${currentSlide === 3 ? 'active' : ''}`}>
+          <div className="slide-item">
+            <img src={heroBg4} alt="Mi Mejor Piel" />
+          </div>
+        </div>
+        <div className={`hero-slide ${currentSlide === 4 ? 'active' : ''}`}>
+          <div className="slide-item">
+            <img src={heroBg5} alt="Mi Mejor Piel" />
           </div>
         </div>
         <div className="hero-overlay"></div>
