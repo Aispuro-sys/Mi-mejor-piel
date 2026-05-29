@@ -24,27 +24,27 @@ export default function Hero() {
   return (
     <section className="hero" id="home">
       <div className="hero-bg">
-        <div className={`hero-slide full ${currentSlide === 0 ? 'active' : ''}`}>
+        <div className={`hero-slide full ${currentSlide === 0 ? 'active' : ''}`} style={{opacity: currentSlide === 0 ? 1 : 0, zIndex: currentSlide === 0 ? 1 : 0}}>
           <div className="slide-item">
             <img src={heroBg1} alt="Mi Mejor Piel" />
           </div>
         </div>
-        <div className={`hero-slide ${currentSlide === 1 ? 'active' : ''}`}>
+        <div className={`hero-slide ${currentSlide === 1 ? 'active' : ''}`} style={{opacity: currentSlide === 1 ? 1 : 0, zIndex: currentSlide === 1 ? 1 : 0}}>
           <div className="slide-item">
             <img src={heroBg2} alt="Mi Mejor Piel" />
           </div>
         </div>
-        <div className={`hero-slide ${currentSlide === 2 ? 'active' : ''}`}>
+        <div className={`hero-slide ${currentSlide === 2 ? 'active' : ''}`} style={{opacity: currentSlide === 2 ? 1 : 0, zIndex: currentSlide === 2 ? 1 : 0}}>
           <div className="slide-item">
             <img src={heroBg3} alt="Mi Mejor Piel" />
           </div>
         </div>
-        <div className={`hero-slide ${currentSlide === 3 ? 'active' : ''}`}>
+        <div className={`hero-slide ${currentSlide === 3 ? 'active' : ''}`} style={{opacity: currentSlide === 3 ? 1 : 0, zIndex: currentSlide === 3 ? 1 : 0}}>
           <div className="slide-item">
             <img src={heroBg4} alt="Mi Mejor Piel" />
           </div>
         </div>
-        <div className={`hero-slide ${currentSlide === 4 ? 'active' : ''}`}>
+        <div className={`hero-slide ${currentSlide === 4 ? 'active' : ''}`} style={{opacity: currentSlide === 4 ? 1 : 0, zIndex: currentSlide === 4 ? 1 : 0}}>
           <div className="slide-item">
             <img src={heroBg5} alt="Mi Mejor Piel" />
           </div>
