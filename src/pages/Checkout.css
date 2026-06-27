@@ -432,14 +432,27 @@
 /* Success Actions */
 .success-actions {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 32px;
+  justify-content: center;
 }
 
 .success-actions .btn {
-  width: 100%;
+  flex: 1;
   justify-content: center;
+  padding: 14px 24px;
+  font-size: 15px;
+}
+
+@media (max-width: 480px) {
+  .success-actions {
+    flex-direction: column;
+  }
+  
+  .success-actions .btn {
+    width: 100%;
+  }
 }
 
 /* Order Error */
