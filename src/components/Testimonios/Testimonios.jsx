@@ -1,5 +1,6 @@
 import { Star, Gift } from 'lucide-react';
 import { Button } from '../UI';
+import { useState, useEffect } from 'react';
 import './Testimonios.css';
 
 // Importar imágenes de testimonios record
@@ -65,6 +66,32 @@ const testimonios = [
 ];
 
 export default function Testimonios() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const testimonialsPerView = 3;
+  const maxIndex = Math.max(0, testimonios.length - testimonialsPerView);
+
+  // Detectar si es móvil
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Carrusel automático solo en desktop
+  useEffect(() => {
+    if (isMobile) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isMobile, maxIndex]);
+
+  const goToSlide = (index) => setCurrentIndex(index);
+
   return (
     <section className="section section-testimonios" id="testimonios">
       <div className="container">
@@ -73,33 +100,52 @@ export default function Testimonios() {
           <h2>Lo que dicen nuestras clientas</h2>
         </div>
         
-        <div className="testimonios-grid">
-          {testimonios.map((testimonio, index) => (
-            <div className="testimonio-card" key={index}>
-              <div className="testimonio-image">
-                <img 
-                  src={testimonio.image} 
-                  alt={`Resultado de ${testimonio.name}`}
-                  loading="lazy"
-                />
-              </div>
-              <div className="testimonio-content">
-                <div className="testimonio-stars">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
+        <div className="testimonios-carousel">
+          <div 
+            className="carousel-track" 
+            style={!isMobile ? { transform: `translateX(-${currentIndex * (100 / testimonialsPerView)}%)` } : {}}
+          >
+            {testimonios.map((testimonio, index) => (
+              <div className="testimonio-card" key={index}>
+                <div className="testimonio-image">
+                  <img 
+                    src={testimonio.image} 
+                    alt={`Resultado de ${testimonio.name}`}
+                    loading="lazy"
+                  />
                 </div>
-                <p className="testimonio-text">"{testimonio.text}"</p>
-                <div className="testimonio-author">
-                  <div className="author-info">
-                    <strong>{testimonio.name}</strong>
-                    <span>{testimonio.location}</span>
+                <div className="testimonio-content">
+                  <div className="testimonio-stars">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="currentColor" />
+                    ))}
+                  </div>
+                  <p className="testimonio-text">"{testimonio.text}"</p>
+                  <div className="testimonio-author">
+                    <div className="author-info">
+                      <strong>{testimonio.name}</strong>
+                      <span>{testimonio.location}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Indicadores solo en desktop */}
+        {!isMobile && (
+          <div className="carousel-indicators">
+            {Array.from({ length: maxIndex + 1 }, (_, index) => (
+              <button
+                key={index}
+                className={`indicator ${index === currentIndex ? 'active' : ''}`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
         
         <div className="oferta-section fade-in-scale">
           <h3>🎁 Oferta Especial</h3>

@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════
-   TESTIMONIOS - Grid responsive simple
+   TESTIMONIOS - Carrusel desktop, scroll móvil
    ════════════════════════════════════════════ */
 
 .section-testimonios {
@@ -21,23 +21,20 @@
   display: none;
 }
 
-/* Grid desktop: 3 columnas */
-.testimonios-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* ═══ DESKTOP: Carrusel con track ═══ */
+.testimonios-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
   gap: 24px;
+  transition: transform 0.6s ease-in-out;
 }
 
-/* Tablet: 2 columnas */
+/* ═══ MÓVIL: Scroll horizontal nativo ═══ */
 @media (max-width: 768px) {
-  .testimonios-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-/* Móvil: carrusel horizontal */
-@media (max-width: 480px) {
   .section-testimonios {
     padding: 40px 0;
   }
@@ -46,18 +43,23 @@
     margin-bottom: 25px;
   }
 
-  .testimonios-grid {
+  .testimonios-carousel {
+    overflow: visible;
+  }
+
+  .carousel-track {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
     padding: 0 16px;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    transition: none;
   }
 
-  .testimonios-grid::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+  .carousel-track::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -68,13 +70,15 @@
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 calc(33.333% - 16px);
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .testimonio-card {
-    flex: 0 0 90%;
+    flex: 0 0 85%;
     min-width: 280px;
     scroll-snap-align: center;
   }
@@ -85,7 +89,7 @@
   box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
 
-/* Imagen - IMPORTANTE: object-fit contain para ver completas */
+/* Imagen */
 .testimonio-image {
   width: 100%;
   height: 220px;
@@ -105,12 +109,6 @@
 }
 
 @media (max-width: 768px) {
-  .testimonio-image {
-    height: 200px;
-  }
-}
-
-@media (max-width: 480px) {
   .testimonio-image {
     height: 240px;
   }
@@ -162,18 +160,17 @@
   color: var(--mauve);
 }
 
-/* Indicadores (solo móvil) */
+/* Indicadores */
 .carousel-indicators {
-  display: none;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .carousel-indicators {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
     margin-top: 20px;
-    padding: 0 16px;
   }
 }
 
