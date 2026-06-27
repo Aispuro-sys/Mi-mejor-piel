@@ -1,6 +1,5 @@
 import { Star, Gift } from 'lucide-react';
 import { Button } from '../UI';
-import { useState, useEffect } from 'react';
 import './Testimonios.css';
 
 // Importar imágenes de testimonios record
@@ -66,32 +65,6 @@ const testimonios = [
 ];
 
 export default function Testimonios() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const testimonialsPerView = 3; // Show 3 testimonials at a time
-  const totalTestimonials = testimonios.length;
-  const maxIndex = Math.max(0, totalTestimonials - testimonialsPerView);
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        if (prevIndex >= maxIndex) {
-          return 0;
-        }
-        return prevIndex + 1;
-      });
-    }, 6000); // Change every 6 seconds
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, maxIndex]);
-
-  const goToSlide = (index) => {
-    setIsAutoPlaying(false);
-    setCurrentIndex(index);
-  };
-
   return (
     <section className="section section-testimonios" id="testimonios">
       <div className="container">
@@ -100,43 +73,32 @@ export default function Testimonios() {
           <h2>Lo que dicen nuestras clientas</h2>
         </div>
         
-        <div className="testimonios-carousel">
-          <div className="carousel-container">
-            <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * (100 / testimonialsPerView)}%)` }}>
-              {testimonios.map((testimonio, index) => (
-                <div className={`testimonio-card fade-in ${index === currentIndex || index === currentIndex + 1 || index === currentIndex + 2 ? 'visible' : ''}`} key={index}>
-                  <div className="testimonio-image">
-                    <img src={testimonio.image} alt={`Resultado de ${testimonio.name}`} />
-                  </div>
-                  <div className="testimonio-content">
-                    <div className="testimonio-stars">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={14} fill="currentColor" />
-                      ))}
-                    </div>
-                    <p className="testimonio-text">"{testimonio.text}"</p>
-                    <div className="testimonio-author">
-                      <div className="author-info">
-                        <strong>{testimonio.name}</strong>
-                        <span>{testimonio.location}</span>
-                      </div>
-                    </div>
+        <div className="testimonios-grid">
+          {testimonios.map((testimonio, index) => (
+            <div className="testimonio-card" key={index}>
+              <div className="testimonio-image">
+                <img 
+                  src={testimonio.image} 
+                  alt={`Resultado de ${testimonio.name}`}
+                  loading="lazy"
+                />
+              </div>
+              <div className="testimonio-content">
+                <div className="testimonio-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <p className="testimonio-text">"{testimonio.text}"</p>
+                <div className="testimonio-author">
+                  <div className="author-info">
+                    <strong>{testimonio.name}</strong>
+                    <span>{testimonio.location}</span>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-          
-          <div className="carousel-indicators">
-            {Array.from({ length: maxIndex + 1 }, (_, index) => (
-              <button
-                key={index}
-                className={`indicator ${index === currentIndex ? 'active' : ''}`}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
         
         <div className="oferta-section fade-in-scale">
