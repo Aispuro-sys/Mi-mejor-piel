@@ -7,7 +7,7 @@ import './OrderForm.css';
 
 export default function OrderForm() {
   const navigate = useNavigate();
-  const [selectedQty, setSelectedQty] = useState(2);
+  const [selectedQty, setSelectedQty] = useState(1);
   const [customQty, setCustomQty] = useState(4);
   const [useCustomQty, setUseCustomQty] = useState(false);
   const [selectedDelivery, setSelectedDelivery] = useState('pickup');
