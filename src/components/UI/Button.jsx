@@ -21,7 +21,7 @@ export default function Button({
   }
   
   return (
-    <button className={classes} onClick={onClick} {...props}>
+    <button type="button" className={classes} onClick={onClick} {...props}>
       {icon && <span className="btn-icon">{icon}</span>}
       {children}
     </button>
