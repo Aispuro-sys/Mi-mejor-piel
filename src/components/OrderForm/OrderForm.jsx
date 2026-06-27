@@ -13,7 +13,9 @@ export default function OrderForm() {
   const [selectedDelivery, setSelectedDelivery] = useState('pickup');
 
   const actualQty = useCustomQty ? customQty : selectedQty;
-  const selectedPrice = actualQty * CONFIG.pricePerUnit;
+  const subtotal = actualQty * CONFIG.pricePerUnit;
+  const taxAmount = actualQty * CONFIG.taxPerUnit;
+  const selectedPrice = subtotal + taxAmount;
 
   const handleQtySelect = (qty) => {
     setSelectedQty(qty);
@@ -131,7 +133,11 @@ export default function OrderForm() {
             <div className="order-summary">
               <div className="order-summary-row">
                 <span>{actualQty} frasco{actualQty > 1 ? 's' : ''} × $300</span>
-                <span>${selectedPrice} MXN</span>
+                <span>${subtotal} MXN</span>
+              </div>
+              <div className="order-summary-row">
+                <span>{CONFIG.taxLabel}</span>
+                <span>${taxAmount} MXN</span>
               </div>
               <div className="order-summary-row">
                 <span>Entrega: {selectedDelivery === 'pickup' ? 'Recolección' : 'A domicilio'}</span>

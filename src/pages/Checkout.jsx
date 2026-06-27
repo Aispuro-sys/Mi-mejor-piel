@@ -34,7 +34,9 @@ export default function Checkout() {
   });
   const [errors, setErrors] = useState({});
 
-  const totalPrice = qty * CONFIG.pricePerUnit;
+  const subtotal = qty * CONFIG.pricePerUnit;
+  const taxAmount = qty * CONFIG.taxPerUnit;
+  const totalPrice = subtotal + taxAmount;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -175,7 +177,8 @@ Cantidad: ${qty}
 Precio unitario: $300 MXN
 
 ───────────────────────────────────────────
-Subtotal: $${totalPrice} MXN
+Subtotal: $${subtotal} MXN
+${CONFIG.taxLabel}: $${taxAmount} MXN
 Envío: ${delivery === 'pickup' ? 'Recolección en tienda (Gratis)' : 'A domicilio'}
 ${delivery === 'delivery' ? `Dirección: ${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}` : ''}
 
@@ -290,6 +293,8 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
   if (step === 3 && paymentMethod === 'card') {
     const orderData = {
       amount: totalPrice,
+      subtotal: subtotal,
+      taxAmount: taxAmount,
       customerInfo: {
         name: formData.nombre,
         email: formData.email,
@@ -357,7 +362,11 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
           <h3>Resumen del Pedido</h3>
           <div className="summary-item">
             <span>Suero de Ácido Hialurónico x{qty}</span>
-            <span>${totalPrice} MXN</span>
+            <span>${subtotal} MXN</span>
+          </div>
+          <div className="summary-item">
+            <span>{CONFIG.taxLabel}</span>
+            <span>${taxAmount} MXN</span>
           </div>
           <div className="summary-item delivery-type">
             {delivery === 'pickup' ? (

@@ -5,6 +5,8 @@
 export const CONFIG = {
   whatsappNumber: '16193414647', // +1 (619) 341-4647
   pricePerUnit: 300,
+  taxPerUnit: 18,
+  taxLabel: 'Impuesto por transacción (6%)',
   siteName: 'Mi Mejor Piel',
   productName: 'Suero de Ácido Hialurónico',
   locations: ['Tijuana', 'Rosarito'],

@@ -124,6 +124,8 @@ async function sendConfirmationEmail(orderData) {
             <h2 style="color: #333; margin-bottom: 15px;">Detalles del Pedido</h2>
             <p><strong>Número de pedido:</strong> ${orderData.order_id}</p>
             <p><strong>Producto:</strong> Suero de Ácido Hialurónico x${orderData.quantity}</p>
+            <p><strong>Subtotal:</strong> $${orderData.unit_price * orderData.quantity} MXN</p>
+            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity)).toFixed(2)} MXN</p>
             <p><strong>Total:</strong> $${orderData.amount} MXN</p>
             <p><strong>Método de pago:</strong> Tarjeta de crédito/débito</p>
             <p><strong>Estado:</strong> <span style="color: #28a745;">Pagado y Confirmado</span></p>
@@ -171,6 +173,8 @@ async function sendFailedPaymentEmail(orderData) {
             <h2 style="color: #721c24; margin-bottom: 15px;">Detalles del Intento</h2>
             <p><strong>Número de pedido:</strong> ${orderData.order_id}</p>
             <p><strong>Producto:</strong> Suero de Ácido Hialurónico x${orderData.quantity}</p>
+            <p><strong>Subtotal:</strong> $${orderData.unit_price * orderData.quantity} MXN</p>
+            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity)).toFixed(2)} MXN</p>
             <p><strong>Total:</strong> $${orderData.amount} MXN</p>
             <p><strong>Estado:</strong> <span style="color: #dc3545;">Pago no procesado</span></p>
           </div>

@@ -140,6 +140,14 @@ function PaymentFormContent({ orderData, onPaymentSuccess, onPaymentError }) {
             <span>Suero de Ácido Hialurónico</span>
             <span>x{orderData.orderInfo.quantity}</span>
           </div>
+          <div className="summary-item">
+            <span>Subtotal</span>
+            <span>${orderData.orderInfo.quantity * 300} MXN</span>
+          </div>
+          <div className="summary-item">
+            <span>Impuesto por transacción (6%)</span>
+            <span>${orderData.orderInfo.quantity * 18} MXN</span>
+          </div>
           <div className="summary-divider"></div>
           <div className="summary-total">
             <span>Total a pagar</span>
