@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       apiVersion: '2023-10-16',
     });
 
-    const { amount, customerInfo, orderInfo } = req.body;
+    const { amount, customerInfo, orderInfo, shippingAmount } = req.body;
 
     // Validar datos requeridos
     if (!amount || !customerInfo || !orderInfo) {
@@ -53,6 +53,8 @@ export default async function handler(req, res) {
         customerName: customerInfo.name,
         customerEmail: customerInfo.email,
         orderId: orderInfo.id,
+        shippingAmount: shippingAmount?.toString() || '0',
+        shippingAddress: orderInfo.shippingAddress || '',
       },
       receipt_email: customerInfo.email,
     });
@@ -63,23 +65,24 @@ export default async function handler(req, res) {
         const sql = neon(process.env.DATABASE_URL);
         await sql`
           INSERT INTO orders (
-            id, customer_name, customer_email, customer_phone, 
+            id, customer_name, customer_email, customer_phone,
             quantity, unit_price, total_amount, currency, status, payment_status,
-            payment_intent_id, delivery_method, shipping_address, created_at
+            payment_intent_id, delivery_method, shipping_address, shipping_amount, created_at
           ) VALUES (
-            ${orderInfo.id}, 
-            ${customerInfo.name}, 
-            ${customerInfo.email}, 
-            ${customerInfo.phone || ''}, 
-            ${orderInfo.quantity || 1}, 
+            ${orderInfo.id},
+            ${customerInfo.name},
+            ${customerInfo.email},
+            ${customerInfo.phone || ''},
+            ${orderInfo.quantity || 1},
             300,
-            ${amount}, 
+            ${amount},
             'mxn',
-            'pending', 
             'pending',
-            ${paymentIntent.id}, 
+            'pending',
+            ${paymentIntent.id},
             ${orderInfo.delivery || 'pickup'},
             ${customerInfo.address || ''},
+            ${shippingAmount || 0},
             NOW()
           )
         `;

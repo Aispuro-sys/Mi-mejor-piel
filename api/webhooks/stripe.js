@@ -125,7 +125,9 @@ async function sendConfirmationEmail(orderData) {
             <p><strong>Número de pedido:</strong> ${orderData.order_id}</p>
             <p><strong>Producto:</strong> Suero de Ácido Hialurónico x${orderData.quantity}</p>
             <p><strong>Subtotal:</strong> $${orderData.unit_price * orderData.quantity} MXN</p>
-            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity)).toFixed(2)} MXN</p>
+            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity) - (orderData.shipping_amount || 0)).toFixed(2)} MXN</p>
+            ${orderData.shipping_amount > 0 ? `<p><strong>Envío a domicilio:</strong> $${orderData.shipping_amount} MXN</p>` : ''}
+            ${orderData.shipping_address ? `<p><strong>Dirección de entrega:</strong> ${orderData.shipping_address}</p>` : ''}
             <p><strong>Total:</strong> $${orderData.amount} MXN</p>
             <p><strong>Método de pago:</strong> Tarjeta de crédito/débito</p>
             <p><strong>Estado:</strong> <span style="color: #28a745;">Pagado y Confirmado</span></p>
@@ -174,7 +176,9 @@ async function sendFailedPaymentEmail(orderData) {
             <p><strong>Número de pedido:</strong> ${orderData.order_id}</p>
             <p><strong>Producto:</strong> Suero de Ácido Hialurónico x${orderData.quantity}</p>
             <p><strong>Subtotal:</strong> $${orderData.unit_price * orderData.quantity} MXN</p>
-            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity)).toFixed(2)} MXN</p>
+            <p><strong>Impuesto por transacción:</strong> $${(orderData.amount - (orderData.unit_price * orderData.quantity) - (orderData.shipping_amount || 0)).toFixed(2)} MXN</p>
+            ${orderData.shipping_amount > 0 ? `<p><strong>Envío a domicilio:</strong> $${orderData.shipping_amount} MXN</p>` : ''}
+            ${orderData.shipping_address ? `<p><strong>Dirección de entrega:</strong> ${orderData.shipping_address}</p>` : ''}
             <p><strong>Total:</strong> $${orderData.amount} MXN</p>
             <p><strong>Estado:</strong> <span style="color: #dc3545;">Pago no procesado</span></p>
           </div>

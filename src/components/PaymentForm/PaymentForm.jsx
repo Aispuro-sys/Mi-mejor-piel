@@ -148,6 +148,12 @@ function PaymentFormContent({ orderData, onPaymentSuccess, onPaymentError }) {
             <span>Impuesto por transacción (6%)</span>
             <span>${orderData.orderInfo.quantity * 18} MXN</span>
           </div>
+          {orderData.shippingAmount > 0 && (
+            <div className="summary-item">
+              <span>Envío a domicilio</span>
+              <span>${orderData.shippingAmount} MXN</span>
+            </div>
+          )}
           <div className="summary-divider"></div>
           <div className="summary-total">
             <span>Total a pagar</span>

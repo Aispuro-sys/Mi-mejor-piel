@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Store, Truck, CreditCard, Banknote, ArrowLeft, Lock, CheckCircle, Download, Home } from 'lucide-react';
+import { Store, Truck, CreditCard, ArrowLeft, Lock, CheckCircle, Download, Home } from 'lucide-react';
 import { CONFIG } from '../utils/config';
 import { Button } from '../components/UI';
 import PaymentForm from '../components/PaymentForm/PaymentForm';
@@ -15,7 +15,7 @@ export default function Checkout() {
   const delivery = searchParams.get('delivery') || 'pickup';
   
   const [step, setStep] = useState(1); // 1: datos, 2: método pago, 3: pago
-  const [paymentMethod, setPaymentMethod] = useState(null); // 'card' o 'cash'
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState(null);
@@ -26,7 +26,7 @@ export default function Checkout() {
     nombre: '',
     telefono: '',
     email: '',
-    ciudad: 'Tijuana',
+    ciudad: '',
     direccion: '',
     colonia: '',
     cp: '',
@@ -36,7 +36,8 @@ export default function Checkout() {
 
   const subtotal = qty * CONFIG.pricePerUnit;
   const taxAmount = qty * CONFIG.taxPerUnit;
-  const totalPrice = subtotal + taxAmount;
+  const shippingAmount = delivery === 'delivery' ? CONFIG.shippingCost : 0;
+  const totalPrice = subtotal + taxAmount + shippingAmount;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +73,10 @@ export default function Checkout() {
       if (!formData.cp.trim()) {
         newErrors.cp = 'El código postal es requerido';
       }
+      // Validar que se haya seleccionado una zona de envío
+      if (!formData.ciudad) {
+        newErrors.ciudad = 'Selecciona una zona de entrega válida';
+      }
     }
     
     setErrors(newErrors);
@@ -84,58 +89,10 @@ export default function Checkout() {
     }
   };
 
-  const handleSelectPaymentMethod = (method) => {
-    setPaymentMethod(method);
-    if (method === 'card') {
-      setStep(3);
-    }
-  };
-
   const generateOrderId = () => {
     return `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   };
 
-  const handleCashOrder = async () => {
-    setIsSubmitting(true);
-    const newOrderId = generateOrderId();
-    
-    try {
-      // Guardar pedido en la base de datos (sin pago)
-      const response = await fetch('/api/orders/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId: newOrderId,
-          customerInfo: {
-            name: formData.nombre,
-            email: formData.email,
-            phone: formData.telefono,
-          },
-          orderInfo: {
-            quantity: qty,
-            delivery: delivery,
-            address: delivery === 'delivery' 
-              ? `${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}`
-              : 'Recolección en tienda',
-            notes: formData.notas
-          },
-          amount: totalPrice,
-          paymentMethod: 'cash',
-          paymentStatus: 'pending'
-        })
-      });
-
-      setOrderId(newOrderId);
-      setOrderComplete(true);
-    } catch (error) {
-      console.error('Error creating order:', error);
-      // Aún así mostrar éxito ya que el pedido se puede procesar manualmente
-      setOrderId(newOrderId);
-      setOrderComplete(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const handlePaymentSuccess = (paymentData) => {
     setOrderId(paymentData.orderId);
@@ -179,14 +136,14 @@ Precio unitario: $300 MXN
 ───────────────────────────────────────────
 Subtotal: $${subtotal} MXN
 ${CONFIG.taxLabel}: $${taxAmount} MXN
-Envío: ${delivery === 'pickup' ? 'Recolección en tienda (Gratis)' : 'A domicilio'}
+Envío: ${delivery === 'pickup' ? 'Recolección en tienda (Gratis)' : `A domicilio ($${shippingAmount} MXN)`}
 ${delivery === 'delivery' ? `Dirección: ${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}` : ''}
 
 TOTAL: $${totalPrice} MXN
 ───────────────────────────────────────────
 
-Método de pago: ${paymentMethod === 'card' ? 'Tarjeta de crédito/débito' : 'Efectivo'}
-Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
+Método de pago: Tarjeta de crédito/débito
+Estado: PAGADO
 
 ═══════════════════════════════════════════
         ¡Gracias por tu compra!
@@ -246,34 +203,13 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
             <h1>¡Pedido Confirmado!</h1>
             <p className="order-id">Número de pedido: <strong>{orderId}</strong></p>
             
-            {paymentMethod === 'cash' ? (
-              <div className="success-message">
-                <h3>Pago en Efectivo</h3>
-                <p>
-                  Tu pedido ha sido registrado. Te contactaremos al número 
-                  <strong> {formData.telefono}</strong> para coordinar la entrega y el pago.
-                </p>
-                <div className="whatsapp-contact">
-                  <p>También puedes contactarnos directamente:</p>
-                  <a 
-                    href={`https://wa.me/526193414647?text=Hola! Acabo de hacer el pedido ${orderId} y quiero coordinar el pago en efectivo.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="whatsapp-btn"
-                  >
-                    Contactar por WhatsApp
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="success-message">
-                <h3>Pago Completado</h3>
-                <p>
-                  Hemos enviado un comprobante a <strong>{formData.email}</strong>.
-                  Tu pedido será preparado y enviado en las próximas 24-48 horas.
-                </p>
-              </div>
-            )}
+            <div className="success-message">
+              <h3>Pago Completado</h3>
+              <p>
+                Hemos enviado un comprobante a <strong>{formData.email}</strong>.
+                Tu pedido será preparado y enviado en las próximas 24-48 horas.
+              </p>
+            </div>
             
             <div className="success-actions">
               <Button variant="verde" onClick={downloadReceipt} icon={<Download size={18} />}>
@@ -289,48 +225,28 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
     );
   }
 
-  // Paso 3: Formulario de pago con tarjeta
-  if (step === 3 && paymentMethod === 'card') {
-    const orderData = {
-      amount: totalPrice,
-      subtotal: subtotal,
-      taxAmount: taxAmount,
-      customerInfo: {
-        name: formData.nombre,
-        email: formData.email,
-        phone: formData.telefono,
-        address: delivery === 'delivery' 
-          ? `${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}`
-          : 'Recolección en tienda - Tijuana/Rosarito'
-      },
-      orderInfo: {
-        id: generateOrderId(),
-        quantity: qty,
-        delivery: delivery
-      }
-    };
-
-    return (
-      <div className="checkout-page">
-        <div className="checkout-container">
-          <button className="back-btn" onClick={() => setStep(2)}>
-            <ArrowLeft size={20} /> Volver
-          </button>
-          
-          <div className="checkout-header">
-            <h1>Pago con Tarjeta</h1>
-            <p>Completa tu pago de forma segura</p>
-          </div>
-          
-          <PaymentForm
-            orderData={orderData}
-            onPaymentSuccess={handlePaymentSuccess}
-            onPaymentError={handlePaymentError}
-          />
-        </div>
-      </div>
-    );
-  }
+  const orderData = {
+    amount: totalPrice,
+    subtotal: subtotal,
+    taxAmount: taxAmount,
+    shippingAmount: shippingAmount,
+    customerInfo: {
+      name: formData.nombre,
+      email: formData.email,
+      phone: formData.telefono,
+      address: delivery === 'delivery'
+        ? `${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}`
+        : 'Recolección en tienda - Tijuana/Rosarito'
+    },
+    orderInfo: {
+      id: generateOrderId(),
+      quantity: qty,
+      delivery: delivery,
+      shippingAddress: delivery === 'delivery'
+        ? `${formData.direccion}, ${formData.colonia}, CP ${formData.cp}, ${formData.ciudad}`
+        : null
+    }
+  };
 
   return (
     <div className="checkout-page">
@@ -348,12 +264,7 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
           <div className="progress-line"></div>
           <div className={`progress-step ${step >= 2 ? 'active' : ''}`}>
             <span className="step-number">2</span>
-            <span className="step-label">Método de Pago</span>
-          </div>
-          <div className="progress-line"></div>
-          <div className={`progress-step ${step >= 3 ? 'active' : ''}`}>
-            <span className="step-number">3</span>
-            <span className="step-label">Confirmar</span>
+            <span className="step-label">Pago</span>
           </div>
         </div>
 
@@ -367,6 +278,10 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
           <div className="summary-item">
             <span>{CONFIG.taxLabel}</span>
             <span>${taxAmount} MXN</span>
+          </div>
+          <div className="summary-item">
+            <span>Envío</span>
+            <span>{delivery === 'pickup' ? 'Gratis' : `$${shippingAmount} MXN`}</span>
           </div>
           <div className="summary-item delivery-type">
             {delivery === 'pickup' ? (
@@ -432,15 +347,19 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
                 <h3 className="subsection-title">Dirección de Envío</h3>
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Ciudad</label>
+                    <label>Zona de entrega *</label>
                     <select
                       name="ciudad"
                       value={formData.ciudad}
                       onChange={handleInputChange}
+                      className={errors.ciudad ? 'error' : ''}
                     >
-                      <option value="Tijuana">Tijuana</option>
-                      <option value="Rosarito">Rosarito</option>
+                      <option value="">Selecciona una zona</option>
+                      <option value="Tijuana Centro">Tijuana Centro</option>
+                      <option value="Tijuana 5 y 10">Tijuana 5 y 10</option>
+                      <option value="Rosarito Centro">Rosarito Centro</option>
                     </select>
+                    {errors.ciudad && <span className="error-msg">{errors.ciudad}</span>}
                   </div>
                   
                   <div className="form-group">
@@ -499,68 +418,35 @@ Estado: ${paymentMethod === 'card' ? 'PAGADO' : 'PENDIENTE DE PAGO'}
               onClick={handleContinueToPayment}
               className="continue-btn"
             >
-              Continuar al Pago
+              Continuar al Pago con Tarjeta
             </Button>
           </div>
         )}
 
-        {/* Step 2: Payment Method Selection */}
+        {/* Step 2: Card Payment */}
         {step === 2 && (
           <div className="checkout-step">
-            <h2>¿Cómo quieres pagar?</h2>
-            
             <div className="payment-methods">
-              <div 
-                className={`payment-method-card ${paymentMethod === 'card' ? 'selected' : ''}`}
-                onClick={() => handleSelectPaymentMethod('card')}
-              >
+              <div className="payment-method-card selected">
                 <div className="method-icon">
                   <CreditCard size={32} />
                 </div>
                 <div className="method-info">
                   <h3>Pago con Tarjeta</h3>
-                  <p>Paga ahora con tu tarjeta de crédito o débito</p>
+                  <p>Pago seguro con confirmación inmediata</p>
                   <div className="method-badges">
                     <span className="badge secure"><Lock size={12} /> Pago Seguro</span>
                     <span className="badge instant">Confirmación Inmediata</span>
                   </div>
                 </div>
               </div>
-              
-              <div 
-                className={`payment-method-card ${paymentMethod === 'cash' ? 'selected' : ''}`}
-                onClick={() => setPaymentMethod('cash')}
-              >
-                <div className="method-icon cash">
-                  <Banknote size={32} />
-                </div>
-                <div className="method-info">
-                  <h3>Pago en Efectivo</h3>
-                  <p>Paga al recibir tu pedido o al recogerlo</p>
-                  <div className="method-badges">
-                    <span className="badge">Sin tarjeta necesaria</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {paymentMethod === 'cash' && (
-              <div className="cash-confirmation">
-                <h3>Confirmar Pedido</h3>
-                <p>
-                  Al confirmar, te contactaremos al número <strong>{formData.telefono}</strong> 
-                  para coordinar la entrega y el pago en efectivo.
-                </p>
-                <Button 
-                  variant="verde" 
-                  onClick={handleCashOrder}
-                  disabled={isSubmitting}
-                  className="confirm-btn"
-                >
-                  {isSubmitting ? 'Procesando...' : `Confirmar Pedido — $${totalPrice} MXN`}
-                </Button>
-              </div>
-            )}
+            <PaymentForm
+              orderData={orderData}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+            />
           </div>
         )}
       </div>

@@ -15,7 +15,8 @@ export default function OrderForm() {
   const actualQty = useCustomQty ? customQty : selectedQty;
   const subtotal = actualQty * CONFIG.pricePerUnit;
   const taxAmount = actualQty * CONFIG.taxPerUnit;
-  const selectedPrice = subtotal + taxAmount;
+  const shippingAmount = selectedDelivery === 'delivery' ? CONFIG.shippingCost : 0;
+  const selectedPrice = subtotal + taxAmount + shippingAmount;
 
   const handleQtySelect = (qty) => {
     setSelectedQty(qty);
@@ -124,7 +125,7 @@ export default function OrderForm() {
                 <div className="dicon"><Truck size={20} /></div>
                 <div className="dtext">
                   <strong>Envío a domicilio</strong>
-                  <span>Preguntar costo</span>
+                  <span>$70 MXN</span>
                 </div>
               </div>
             </div>
@@ -141,7 +142,7 @@ export default function OrderForm() {
               </div>
               <div className="order-summary-row">
                 <span>Entrega: {selectedDelivery === 'pickup' ? 'Recolección' : 'A domicilio'}</span>
-                <span>—</span>
+                <span>{selectedDelivery === 'pickup' ? 'Gratis' : `$${shippingAmount} MXN`}</span>
               </div>
               <div className="order-summary-row total">
                 <span>Total</span>
@@ -154,7 +155,7 @@ export default function OrderForm() {
             </Button>
             
             <p className="order-note">
-              Puedes pagar con tarjeta o en efectivo al recibir tu pedido.
+              Pago seguro con tarjeta de crédito o débito.
             </p>
           </div>
 
@@ -163,8 +164,8 @@ export default function OrderForm() {
             <div className="section-label">Ubicación</div>
             <h3>Tijuana & Rosarito</h3>
             <p className="desc">
-              Servimos a toda la zona de Tijuana y Rosarito, Baja California. 
-              Puedes recoger tu pedido en un punto de encuentro o recibir envío a domicilio.
+              Envío a domicilio disponible solo en: Tijuana Zona Centro, Tijuana 5 y 10, y Zona Centro Rosarito. 
+              También puedes recoger tu pedido en un punto de encuentro sin costo.
             </p>
 
             <div className="map-container">
@@ -179,15 +180,22 @@ export default function OrderForm() {
               <div className="location-card">
                 <div className="loc-icon verde"><MapPin size={20} /></div>
                 <div className="loc-info">
-                  <strong>Tijuana, B.C.</strong>
-                  <span>Zona principal de cobertura</span>
+                  <strong>Tijuana Zona Centro</strong>
+                  <span>Envío disponible</span>
                 </div>
               </div>
               <div className="location-card">
                 <div className="loc-icon rosa"><MapPin size={20} /></div>
                 <div className="loc-info">
-                  <strong>Rosarito, B.C.</strong>
-                  <span>También disponible en Rosarito</span>
+                  <strong>Tijuana 5 y 10</strong>
+                  <span>Envío disponible</span>
+                </div>
+              </div>
+              <div className="location-card">
+                <div className="loc-icon rosa"><MapPin size={20} /></div>
+                <div className="loc-info">
+                  <strong>Zona Centro Rosarito</strong>
+                  <span>Envío disponible</span>
                 </div>
               </div>
               <div className="location-card">
