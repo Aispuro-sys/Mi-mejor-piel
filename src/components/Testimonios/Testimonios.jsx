@@ -6,7 +6,7 @@ import './Testimonios.css';
 // Importar imágenes de testimonios record
 import record1 from '../../assets/images/imagenes-testimonios-record/record 1.png';
 import record2 from '../../assets/images/imagenes-testimonios-record/record 2.png';
-import record3 from '../../assets/images/imagenes-testimonios-record/record 3.png';
+import record3 from '../../assets/images/imagenes-testimonios-record/record 3.1.png';
 import record4 from '../../assets/images/imagenes-testimonios-record/record 4.png';
 import record5 from '../../assets/images/imagenes-testimonios-record/record 5.png';
 import record6 from '../../assets/images/imagenes-testimonios-record/record 6.png';
