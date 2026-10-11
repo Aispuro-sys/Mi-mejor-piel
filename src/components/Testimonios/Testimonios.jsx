@@ -12,6 +12,7 @@ import record5 from '../../assets/images/imagenes-testimonios-record/record 5.pn
 import record6 from '../../assets/images/imagenes-testimonios-record/record 6.png';
 import record7 from '../../assets/images/imagenes-testimonios-record/record 7.png';
 import record8 from '../../assets/images/imagenes-testimonios-record/record 8.png';
+import record9 from '../../assets/images/imagenes-testimonios-record/record 9.png';
 
 // Testimonios combinados con imágenes de resultados
 const testimonios = [
@@ -62,6 +63,12 @@ const testimonios = [
     name: 'Beatriz T.',
     location: 'Tijuana, B.C.',
     image: record8
+  },
+  {
+    text: 'Después de probar tantos productos, por fin encontré uno que sí funciona. Mi piel lo agradece.',
+    name: 'Gabriela V.',
+    location: 'Tijuana, B.C.',
+    image: record9
   }
 ];
 
