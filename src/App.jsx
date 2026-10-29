@@ -9,6 +9,8 @@ import OrderForm from './components/OrderForm';
 import Footer from './components/Footer';
 import PaymentSuccess from './pages/PaymentSuccess';
 import Checkout from './pages/Checkout';
+import AvisoPrivacidad from './pages/AvisoPrivacidad';
+import TerminosCondiciones from './pages/TerminosCondiciones';
 import { FloatingElements } from './components/UI';
 import { useScrollAnimation } from './hooks';
 
@@ -35,6 +37,8 @@ function AppContent() {
         } />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/aviso-de-privacidad" element={<AvisoPrivacidad />} />
+        <Route path="/terminos-y-condiciones" element={<TerminosCondiciones />} />
       </Routes>
       {!isCheckoutPage && <Footer />}
       {!isCheckoutPage && <FloatingElements />}

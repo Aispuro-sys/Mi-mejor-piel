@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CONFIG } from '../../utils/config';
 import './Footer.css';
 
@@ -61,6 +62,18 @@ export default function Footer() {
                 <a href="#">
                   <i className="fas fa-map-marker-alt icon-rosa"></i> Tijuana / Rosarito
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="footer-col fade-in delay-3">
+            <h4>Legal</h4>
+            <ul>
+              <li>
+                <Link to="/aviso-de-privacidad">Aviso de Privacidad</Link>
+              </li>
+              <li>
+                <Link to="/terminos-y-condiciones">Términos y Condiciones</Link>
               </li>
             </ul>
           </div>

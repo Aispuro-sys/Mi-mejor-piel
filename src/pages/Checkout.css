@@ -539,3 +539,21 @@
     font-size: 28px;
   }
 }
+
+.legal-consent {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--mauve);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.legal-consent a {
+  color: var(--verde-oscuro);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-consent a:hover {
+  color: var(--verde);
+}

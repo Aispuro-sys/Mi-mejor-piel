@@ -6,7 +6,7 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 60px;
   margin-bottom: 60px;
 }
@@ -123,6 +123,7 @@
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 40px;
   }
 }
 

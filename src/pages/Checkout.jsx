@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { Store, Truck, CreditCard, ArrowLeft, Lock, CheckCircle, Download, Home } from 'lucide-react';
 import { CONFIG } from '../utils/config';
 import { Button } from '../components/UI';
@@ -420,6 +420,12 @@ Estado: PAGADO
             >
               Continuar al Pago con Tarjeta
             </Button>
+
+            <p className="legal-consent">
+              Al continuar con tu pedido, aceptas nuestros{' '}
+              <Link to="/terminos-y-condiciones">Términos y Condiciones</Link> y el{' '}
+              <Link to="/aviso-de-privacidad">Aviso de Privacidad</Link>.
+            </p>
           </div>
         )}
 
